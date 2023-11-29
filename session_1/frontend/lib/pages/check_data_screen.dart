@@ -1,90 +1,83 @@
 import 'package:flutter/material.dart';
 
-class MainSystemScreen extends StatefulWidget {
-  const MainSystemScreen({super.key});
+class CheckDataScreen extends StatefulWidget {
+  const CheckDataScreen({super.key});
 
   @override
-  State<MainSystemScreen> createState() => _MainSystemScreen();
+  State<CheckDataScreen> createState() => _CheckDataScreen();
 }
 
-class _MainSystemScreen extends State<MainSystemScreen> {
+class _CheckDataScreen extends State<CheckDataScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 87, 87, 87),
-        toolbarHeight: 150,
-        centerTitle: true,
         automaticallyImplyLeading: false,
-        title: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const <Widget>[
-              Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 40,color: Colors.white),),
-              Text('Москва, Россия', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 186, 186, 186)),),
-              Text('среда, 21 октября 2023', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 188, 188, 188)),)
+        title: Row(
+            children: <Widget>[
+              Padding(
+              padding: EdgeInsets.only(right: 40),
+              child:
+                  SizedBox(
+                  width: 90,
+                  height: 35,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                    ),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
+                  ),
+                ),
+              Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30,color: Colors.white),),
             ],
           ),
-        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 15),
+              padding: EdgeInsets.only(bottom: 30),
               child:
                 SizedBox(
-                  width: 370,
-                  height: 70,
+                  width: 470,
+                  height: 110,
                   child: ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                       padding: MaterialStateProperty.all(EdgeInsets.all(5))
                     ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/check');
-                        }, child: const Text('Я хочу стать бегуном', style: TextStyle(fontSize: 20,color: Colors.black))),
-                ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 15),
-              child:
-                SizedBox(
-                  width: 370,
-                  height: 70,
-                  child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                    ),
-                      onPressed: () {}, child: const Text('Я хочу стать спонсором бегуна', style: TextStyle(fontSize: 20,color: Colors.black))),
+                      onPressed: () {}, child: const Text('Я участвовал ранее', style: TextStyle(fontSize: 30,color: Colors.black))),
                 ),
             ),
             SizedBox(
-              width: 370,
-              height: 70,
+              width: 470,
+              height: 110,
               child: ElevatedButton(
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                   padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                 ),
-                onPressed: () {}, child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 20,color: Colors.black))),
+                onPressed: () {}, child: const Text('Я новый участник', style: TextStyle(fontSize: 30,color: Colors.black))),
             ),
           ],
         ),
