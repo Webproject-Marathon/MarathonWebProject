@@ -5,6 +5,9 @@
       <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/build" />
+      <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/MarathonWebProject/session_1/frontend/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/MarathonWebProject/session_1/frontend/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/session_1/frontend/MarathonWebProject/session_1/frontend/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
