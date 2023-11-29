@@ -35,13 +35,13 @@ class _MainSystemScreen extends State<MainSystemScreen> {
               padding: EdgeInsets.only(bottom: 15),
               child:
                 SizedBox(
-                  width: 370,
-                  height: 70,
+                  width: 450,
+                  height: 90,
                   child: ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
@@ -49,36 +49,36 @@ class _MainSystemScreen extends State<MainSystemScreen> {
                     ),
                       onPressed: () {
                         Navigator.pushNamed(context, '/check');
-                        }, child: const Text('Я хочу стать бегуном', style: TextStyle(fontSize: 20,color: Colors.black))),
+                        }, child: const Text('Я хочу стать бегуном', style: TextStyle(fontSize: 25,color: Colors.black))),
                 ),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 15),
               child:
                 SizedBox(
-                  width: 370,
-                  height: 70,
+                  width: 450,
+                  height: 90,
                   child: ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all(
                         RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                       padding: MaterialStateProperty.all(EdgeInsets.all(5))
                     ),
-                      onPressed: () {}, child: const Text('Я хочу стать спонсором бегуна', style: TextStyle(fontSize: 20,color: Colors.black))),
+                      onPressed: () {}, child: const Text('Я хочу стать спонсором бегуна', style: TextStyle(fontSize: 25,color: Colors.black))),
                 ),
             ),
             SizedBox(
-              width: 370,
-              height: 70,
+              width: 450,
+              height: 90,
               child: ElevatedButton(
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
@@ -86,7 +86,7 @@ class _MainSystemScreen extends State<MainSystemScreen> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/info');
-                }, child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 20,color: Colors.black))),
+                }, child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 25,color: Colors.black))),
             ),
           ],
         ),
