@@ -84,7 +84,9 @@ class _MainSystemScreen extends State<MainSystemScreen> {
                   backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                   padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                 ),
-                onPressed: () {}, child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 20,color: Colors.black))),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/info');
+                }, child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 20,color: Colors.black))),
             ),
           ],
         ),
