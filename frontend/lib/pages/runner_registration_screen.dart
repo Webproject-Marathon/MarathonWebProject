@@ -49,6 +49,13 @@ class PageState extends ChangeNotifier {
     curCountry = "";
     notifyListeners();
   }
+
+  bool validateDropdownMenus() {
+    if (curGender == "" || curCountry == ""){
+      return false;
+    }
+    return true;
+  }
 }
 
 
@@ -227,12 +234,12 @@ class RegistrationFormsState extends State<RegistrationForms> {
                                 validator: (value) {
                                   var specialSymbols = <String>["!", "@", "#", "\$", "%", "^", ];
                                   var hasSpecialSymbols = false;
-                                  specialSymbols.forEach((item) {
+                                  for (var item in specialSymbols) {
                                     if (value!.contains(item)) hasSpecialSymbols = true;
-                                  });
+                                  }
 
                                   if (value == null || value.isEmpty ||
-                                      !hasSpecialSymbols || !isLength(value, 6) ||
+                                      !hasSpecialSymbols || _pwController.text.length < 6 ||
                                       !value.contains(RegExp(r'[A-Z]')) || !value.contains(RegExp(r'[0-9]'))) {
                                     return 'Неверный ввод';
                                   }
@@ -419,7 +426,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
                       side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
+                        Navigator.pushNamed(context, '/event_reg');
                         //магия какая-то
                       }
                     },

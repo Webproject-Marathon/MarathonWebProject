@@ -34,7 +34,7 @@ class _HomePage extends State<HomePage> {
           child: Column(
             children: const <Widget>[
               Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 40,color: Colors.white),),
-              Text('Москва, Россия', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 186, 186, 186)),),
+              Text('Находка, Россия', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 186, 186, 186)),),
               Text('среда, 21 октября 2023', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 188, 188, 188)),)
             ],
           ),
@@ -154,7 +154,7 @@ class _Content extends State<Content> {
                           padding: MaterialStateProperty.all(EdgeInsets.all(5))
                         ),
                           onPressed: () {Navigator.pushNamed(context, '/info');}, 
-                          child: const Text('Я хочу стать спонсором бегуна', style: TextStyle(fontSize: 20,color: Colors.black))),
+                          child: const Text('Я хочу узнать больше о событии', style: TextStyle(fontSize: 20,color: Colors.black))),
                     ),
                   ]
                 ),
