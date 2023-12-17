@@ -188,7 +188,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
                                   side: BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                                 ),
                                 onPressed: () {
-                                  //магия какая-то
+                                  Navigator.pushNamed(context, '/certificate');
                                 },
                                 child: const Text(
                                   'Показ сертификата',
@@ -216,7 +216,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
                                   side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                                 ),
                                 onPressed: () {
-                                  Navigator.pushNamed(context, '/runner_edit');
+                                  Navigator.pushNamed(context, '/runner_coord_edit');
                                 },
                                 child: const Text(
                                   'Редактирование профиля',
