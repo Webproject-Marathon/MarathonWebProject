@@ -53,188 +53,190 @@ class _PastRacesResult extends State<PastRacesResult> {
           ),
       ),
       body:
-        SingleChildScrollView(
-          scrollDirection: Axis.vertical,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20),
-            child: Column(
-              children: [
-                FittedBox(
-                  fit: BoxFit.contain,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Padding(
-                        padding: EdgeInsets.only(bottom: 40, top: 10),
-                        child:Text('Результаты прошлых гонок', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 92, 92, 92)),),
-                      ),
-                      Flex(
-                        direction: isScreenWide ? Axis.horizontal : Axis.vertical,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IntrinsicHeight (
-                            child: Row(
-                              mainAxisSize:MainAxisSize.min,
-                              children: [
-                                const Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget> [
-                                    Text('Марафон:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87))),
-                                    Text('Дистанция:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)))
-                                  ],
-                                ),
-                                const SizedBox(width: 20,),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 5.0),
-                                      child: SizedBox(
-                                          width: 200,
-                                          child: TextFormField(
-                                              validator: (value) {
-                                                if (value == null || value.isEmpty) {return '!';}
-                                                return null;
-                                              }
+        Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20),
+              child: Column(
+                children: [
+                  FittedBox(
+                    fit: BoxFit.contain,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        const Padding(
+                          padding: EdgeInsets.only(bottom: 40, top: 10),
+                          child:Text('Результаты прошлых гонок', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 92, 92, 92)),),
+                        ),
+                        Flex(
+                          direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IntrinsicHeight (
+                              child: Row(
+                                mainAxisSize:MainAxisSize.min,
+                                children: [
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget> [
+                                      Text('Марафон:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87))),
+                                      Text('Дистанция:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)))
+                                    ],
+                                  ),
+                                  const SizedBox(width: 20,),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 5.0),
+                                        child: SizedBox(
+                                            width: 200,
+                                            child: TextFormField(
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {return '!';}
+                                                  return null;
+                                                }
+                                            )
+                                        ),
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                        padding: const EdgeInsets.all(1.0),
+                                          child: SizedBox(
+                                              width: 200,
+                                              child: TextFormField(
+                                                  validator: (value) {
+                                                    if (value == null || value.isEmpty) {return '!';}
+                                                    return null;
+                                                  }
+                                              )
+                                          )
+                                      ), //name
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: isScreenWide ? 50 : 0),
+                            IntrinsicHeight (
+                              child: Row(
+                                mainAxisSize:MainAxisSize.min,
+                                children: [
+                                  const Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: <Widget> [
+                                      Text('Пол:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87))),
+                                      Text('Категория:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)))
+                                    ],
+                                  ),
+                                  const SizedBox(width: 20,),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(vertical: 5.0),
+                                        child: SizedBox(
+                                            width: 200,
+                                            child: TextFormField(
+                                                validator: (value) {
+                                                  if (value == null || value.isEmpty) {return '!';}
+                                                  return null;
+                                                }
+                                            )
+                                        )
+                                      ),
+                                      const SizedBox(height: 5),
+                                      Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: SizedBox(
+                                              width: 200,
+                                              child: TextFormField(
+                                                  validator: (value) {
+                                                    if (value == null || value.isEmpty) {return '!';}
+                                                    return null;
+                                                  }
+                                              )
                                           )
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.all(1.0),
-                                        child: SizedBox(
-                                            width: 200,
-                                            child: TextFormField(
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {return '!';}
-                                                  return null;
-                                                }
-                                            )
-                                        )
-                                    ), //name
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: isScreenWide ? 50 : 0),
-                          IntrinsicHeight (
-                            child: Row(
-                              mainAxisSize:MainAxisSize.min,
-                              children: [
-                                const Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: <Widget> [
-                                    Text('Пол:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87))),
-                                    Text('Категория:', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)))
-                                  ],
-                                ),
-                                const SizedBox(width: 20,),
-                                Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.symmetric(vertical: 5.0),
-                                      child: SizedBox(
-                                          width: 200,
-                                          child: TextFormField(
-                                              validator: (value) {
-                                                if (value == null || value.isEmpty) {return '!';}
-                                                return null;
-                                              }
-                                          )
-                                      )
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                        padding: const EdgeInsets.all(1.0),
-                                        child: SizedBox(
-                                            width: 200,
-                                            child: TextFormField(
-                                                validator: (value) {
-                                                  if (value == null || value.isEmpty) {return '!';}
-                                                  return null;
-                                                }
-                                            )
-                                        )
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(width: isScreenWide ? 50 : 0, height: isScreenWide ? 0 : 20),
-                          SizedBox(
-                            width: 90,
-                            height: 35,
-                            child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
+                                    ],
                                   ),
-                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                                  padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: isScreenWide ? 50 : 0, height: isScreenWide ? 0 : 20),
+                            SizedBox(
+                              width: 90,
+                              height: 35,
+                              child: ElevatedButton(
+                                  style: ButtonStyle(
+                                    shape: MaterialStateProperty.all(
+                                      RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                    ),
+                                    backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
+                                    padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/home');
+                                  }, child: const Text('Поиск', style: TextStyle(fontSize: 20,color: Colors.black))),
+                            )
+                          ]
+                        ),
+                        SizedBox(height: isScreenWide ? 0 : 20),
+                        Flex(
+                          direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15, right: 40, top: 20),
+                              child: RichText(
+                                text: const TextSpan(
+                                  style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
+                                  children: <TextSpan>[
+                                    TextSpan(text: 'Всего бегунов:  ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '1234'),
+                                  ],
                                 ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/home');
-                                }, child: const Text('Поиск', style: TextStyle(fontSize: 20,color: Colors.black))),
-                          )
-                        ]
-                      ),
-                      SizedBox(height: isScreenWide ? 0 : 20),
-                      Flex(
-                        direction: isScreenWide ? Axis.horizontal : Axis.vertical,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 15, right: 40, top: 20),
-                            child: RichText(
-                              text: const TextSpan(
-                                style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
-                                children: <TextSpan>[
-                                  TextSpan(text: 'Всего бегунов:  ', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: '1234'),
-                                ],
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 15, right: 40, top: 20),
-                            child: RichText(
-                              text: const TextSpan(
-                                style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
-                                children: <TextSpan>[
-                                  TextSpan(text: 'Всего бегунов финишировало:  ', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: '1198'),
-                                ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15, right: 40, top: 20),
+                              child: RichText(
+                                text: const TextSpan(
+                                  style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
+                                  children: <TextSpan>[
+                                    TextSpan(text: 'Всего бегунов финишировало:  ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '1198'),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 15, top: 20),
-                            child: RichText(
-                              text: const TextSpan(
-                                style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
-                                children: <TextSpan>[
-                                  TextSpan(text: 'Среднее время:  ', style: TextStyle(fontWeight: FontWeight.bold)),
-                                  TextSpan(text: '4h 02m 10s'),
-                                ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 15, top: 20),
+                              child: RichText(
+                                text: const TextSpan(
+                                  style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
+                                  children: <TextSpan>[
+                                    TextSpan(text: 'Среднее время:  ', style: TextStyle(fontWeight: FontWeight.bold)),
+                                    TextSpan(text: '4h 02m 10s'),
+                                  ],
+                                ),
                               ),
                             ),
-                          ),
-                        ]
-                      ),
-                    ]
+                          ]
+                        ),
+                      ]
+                    ),
                   ),
-                ),
-                PastRacesTable(users: _users)
-              ],
+                  PastRacesTable(users: _users)
+                ],
+              ),
             ),
           ),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:marathon/classes/text_presets.dart';
 
 class BMRHomeScreen extends StatelessWidget {
   const BMRHomeScreen({super.key});
@@ -50,76 +51,121 @@ class _BMRScreenState extends State<BMRScreen> {
   Widget build(BuildContext context) {
     var appState = context.watch<PageState>();
     var curBMR = appState.current;
+    bool isScreenWide = MediaQuery.sizeOf(context).width >= 800;
 
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'BMR калькулятор',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                SizedBox(height: 10)
-              ],
-            ), //header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                        width: 400,
-                        child: Text(
-                          "Основной обмен (basal metabolic rate) — минимальное количество энергии, необходимое для нормальной жизнедеятельности организма. Введите свои данные для расчёта BMR:",
-                          textAlign: TextAlign.center,
-                        )
-                    ),
-                    SizedBox(height: 5),
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: GenderOption(),
-                    ),
-                    const InputForms(),
-                  ],
-                ), //input column
-                SizedBox(width: 50),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    BMRResult(bmr: curBMR),
-                  ],
-                ) //bmr column
-              ],
-            ), //body
-          ],
-        ),
-      ),
-      appBar: AppBar(
-        leadingWidth: 110,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () { Navigator.pushNamed(context, '/info'); },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromRGBO(204, 204, 204, 1),
-              elevation: 0,
-            ),
-            child: Text(
-              "Назад",
-              style: TextStyle(color: Colors.black),
+        child: SingleChildScrollView(
+          child: FittedBox(
+            fit: BoxFit.contain,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'BMR калькулятор',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      const SizedBox(height: 10)
+                    ],
+                  ), //header
+                  Flex(
+                    direction: isScreenWide ? Axis.horizontal : Axis.vertical,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              width: 400,
+                              child: const Text(
+                                "Основной обмен (basal metabolic rate) — минимальное количество энергии, необходимое для нормальной жизнедеятельности организма. Введите свои данные для расчёта BMR:",
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black
+                                ),
+                                textAlign: TextAlign.center,
+                              )
+                          ),
+                          const SizedBox(height: 5),
+                          const Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: GenderOption(),
+                          ),
+                          const InputForms(),
+                        ],
+                      ), //input column
+                      const SizedBox(width: 50, height: 50,),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          BMRResult(bmr: curBMR),
+                        ],
+                      ) //bmr column
+                    ],
+                  ), //body
+                ],
+              ),
             ),
           ),
         ),
-        title: Text(
-          "MARATHON SKILLS 2023",
-          style: TextStyle(color: Colors.white),
+      ),
+      appBar: AppBar(
+        leadingWidth: 120,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/runner_menu');
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(204, 204, 204, 1)),
+              padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
+            ),
+            child: const Text(
+                'Назад',
+                style: TextStyle(color: Colors.black, fontSize: 18)
+            ),
+          ),
         ),
-        backgroundColor: Color.fromRGBO(82, 82, 82, 1),
+        title: const Text(
+          "MARATHON SKILLS 2023",
+          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30, color: Colors.white,),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/home');
+              },
+              style: ButtonStyle(
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                  backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(204, 204, 204, 1)),
+                  padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
+                  fixedSize: MaterialStateProperty.all(const Size.fromWidth(120))
+              ),
+              child: const Text(
+                  'Log out',
+                  style: TextStyle(color: Colors.black, fontSize: 18)
+              ),
+            ),
+          ),
+        ],
+        backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
       ),
       bottomNavigationBar: BottomAppBar(
         color: Color.fromRGBO(82, 82, 82, 1),
@@ -151,6 +197,7 @@ class GenderOptionState extends State<GenderOption> {
     var appState = context.watch<PageState>();
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Column(
           children: [
@@ -159,15 +206,15 @@ class GenderOptionState extends State<GenderOption> {
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
                       width: appState.chosenGender == 'male' ? 2.0 : 1.0,
-                      color: Color.fromRGBO(101, 101, 101, 1)
+                      color: const Color.fromRGBO(101, 101, 101, 1)
                   ),
-                  backgroundColor: Color.fromRGBO(234, 234, 234, 1),
+                  backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
                 ),
-                child: GenderCard(gender: 'male', genderName: 'Мужской')
+                child: const GenderCard(gender: 'male', genderName: 'Мужской')
             ),
           ],
         ), //m
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Column(
           children: [
             OutlinedButton(
@@ -175,11 +222,11 @@ class GenderOptionState extends State<GenderOption> {
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
                       width: appState.chosenGender == 'female' ? 2.0 : 1.0,
-                      color: Color.fromRGBO(101, 101, 101, 1)
+                      color: const Color.fromRGBO(101, 101, 101, 1)
                   ),
-                  backgroundColor:  Color.fromRGBO(234, 234, 234, 1),
+                  backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
                 ),
-                child: GenderCard(gender: 'female', genderName: 'Женский')
+                child: const GenderCard(gender: 'female', genderName: 'Женский')
             ),
           ],
         ), //f
@@ -206,13 +253,13 @@ class GenderCard extends StatelessWidget {
           children:[
             ImageIcon(
               AssetImage('assets/gender_icons/${gender}.png'),
-              color: Color.fromRGBO(101, 101, 101, 1),
+              color: const Color.fromRGBO(101, 101, 101, 1),
               size: 80,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             Text(
               '${genderName}',
-              style: TextStyle(color: Color.fromRGBO(101, 101, 101, 1)),
+              style: const TextStyle(fontSize: 16, color: Color.fromRGBO(101, 101, 101, 1)),
             ),
           ]
       ),
@@ -237,35 +284,37 @@ class BMRResult extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Column(
               children:[
-                Text(
+                const Text(
                   "Ваш BMR",
                   style: TextStyle(
                       color: Color.fromRGBO(152, 152, 152, 1),
-                      fontSize: 20),
+                      fontSize: 22),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
                     "${bmr.toStringAsFixed(3)}",
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Color.fromRGBO(101, 101, 101, 1),
-                        fontSize: 30),
+                        fontSize: 32),
                   ),
                 ),
-                Row(
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "Ежедневно тратится калорий",
                       style: TextStyle(
                           color: Color.fromRGBO(152, 152, 152, 1),
-                          fontSize: 18),
+                          fontSize: 20),
                     ),
                     SizedBox(width: 4),
                     ActivityAlert(),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -273,37 +322,37 @@ class BMRResult extends StatelessWidget {
                         children: [
                           Container(
                               width: 200,
-                              child: Text ("Cидячий:",
+                              child: const Text ("Cидячий:",
                                 textAlign: TextAlign.right,
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(color: Colors.blue, fontSize: 16),
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 200,
-                              child: Text ("Маленькая активность:",
+                              child: const Text ("Маленькая активность:",
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(color: Colors.green)
+                                  style: TextStyle(color: Colors.green, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 200,
-                              child: Text ("Средняя активность:",
+                              child: const Text ("Средняя активность:",
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(color: Colors.amber)
+                                  style: TextStyle(color: Colors.amber, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 200,
-                              child:Text ("Сильная активность:",
+                              child: const Text ("Сильная активность:",
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(color: Colors.red)
+                                  style: TextStyle(color: Colors.red, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 200,
-                              child:Text ("Максимальная активность:",
+                              child: const Text ("Максимальная активность:",
                                   textAlign: TextAlign.right,
-                                  style: TextStyle(color: Color.fromRGBO(171, 2, 1, 1))
+                                  style: TextStyle(color: Color.fromRGBO(171, 2, 1, 1), fontSize: 16)
                               )),
                         ],
                       ),
@@ -317,35 +366,35 @@ class BMRResult extends StatelessWidget {
                               width: 100,
                               child: Text ("${(bmr*1.2).toStringAsFixed(3)}",
                                 textAlign: TextAlign.left,
-                                style: TextStyle(color: Colors.blue),
+                                style: TextStyle(color: Colors.blue, fontSize: 16),
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 100,
                               child: Text ("${(bmr*1.375).toStringAsFixed(3)}",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.green)
+                                  style: TextStyle(color: Colors.green, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 100,
                               child: Text ("${(bmr*1.55).toStringAsFixed(3)}",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.amber)
+                                  style: TextStyle(color: Colors.amber, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 100,
                               child:Text ("${(bmr*1.725).toStringAsFixed(3)}",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Colors.red)
+                                  style: TextStyle(color: Colors.red, fontSize: 16)
                               )),
                           SizedBox(height: 4),
                           Container(
                               width: 100,
                               child:Text ("${(bmr*1.9).toStringAsFixed(3)}",
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(color: Color.fromRGBO(171, 2, 1, 1))
+                                  style: TextStyle(color: Color.fromRGBO(171, 2, 1, 1), fontSize: 16)
                               )),
                         ],
                       ),
@@ -388,8 +437,8 @@ class InputFormsState extends State<InputForms> {
             Row(
               mainAxisSize:MainAxisSize.min,
               children: [
-                Text ("Рост:"),
-                SizedBox(width: 10),
+                const DefaultText (text: "Рост:"),
+                const SizedBox(width: 10),
                 SizedBox(
                   width: 40,
                   child: TextFormField(
@@ -402,15 +451,15 @@ class InputFormsState extends State<InputForms> {
                     },
                   ),
                 ),
-                SizedBox(width: 10),
-                Text ("см"),
+                const SizedBox(width: 10),
+                const DefaultText (text: "см"),
               ],
             ), //height
             Row(
               mainAxisSize:MainAxisSize.min,
               children: [
-                Text("Вес:"),
-                SizedBox(width: 10),
+                const DefaultText (text: "Вес:"),
+                const SizedBox(width: 10),
                 SizedBox(
                   width: 40,
                   child: TextFormField(
@@ -423,14 +472,14 @@ class InputFormsState extends State<InputForms> {
                     },
                   ),
                 ),
-                SizedBox(width: 10),
-                Text("кг"),
+                const SizedBox(width: 10),
+                const DefaultText (text: "кг"),
               ],
             ), //weight
             Row(
               mainAxisSize:MainAxisSize.min,
               children: [
-                Text("Возраст:"),
+                const DefaultText (text: "Возраст:"),
                 SizedBox(width: 10),
                 SizedBox(
                   width: 40,
@@ -445,7 +494,7 @@ class InputFormsState extends State<InputForms> {
                   ),
                 ),
                 SizedBox(width: 10),
-                Text("лет"),
+                const DefaultText (text: "лет"),
               ],
             ), //age
             SizedBox(height: 15),
@@ -464,10 +513,7 @@ class InputFormsState extends State<InputForms> {
                         appState.updateBMR(userData['height'], userData['weight'], userData['age']);
                       }
                     },
-                    child: const Text(
-                        'Рассчитать',
-                        style: TextStyle(color: Colors.black)
-                    ),
+                    child: const DefaultText (text: 'Рассчитать')
                   ),
                   SizedBox(width: 10),
                   OutlinedButton(
@@ -479,10 +525,7 @@ class InputFormsState extends State<InputForms> {
                       _ageController.text = "";
                       appState.resetBMR();
                     },
-                    child: const Text(
-                        'Отмена',
-                        style: TextStyle(color: Colors.black)
-                    ),
+                    child: const DefaultText (text: 'Отмена',),
                   ),
                 ]
             ),
@@ -530,8 +573,8 @@ class ActivityAlert extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(activityNames[index], style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                      Text(activityDesc[index], style: TextStyle(fontSize: 14)),
+                      Text(activityNames[index], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      Text(activityDesc[index], style: const TextStyle(fontSize: 16)),
                     ],
                   ),
                 );
@@ -541,7 +584,7 @@ class ActivityAlert extends StatelessWidget {
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK'),
+              child: const DefaultText(text: 'OK'),
             ),
           ],
         ),
