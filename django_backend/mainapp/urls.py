@@ -1,6 +1,8 @@
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken import views as authtoken_views
+from django.conf import settings
+from django.conf.urls.static import static
 from . import models
 from . import views
 
@@ -12,6 +14,7 @@ router.register(r'runners', views.RunnerViewSet)
 router.register(r'genders', views.GenderViewSet)
 router.register(r'countries', views.CountriesViewSet)
 router.register(r'volunteers', views.VolunteerViewSet)
+router.register(r'charities', views.CharityViewSet)
 
 
 urlpatterns = [
@@ -21,3 +24,6 @@ urlpatterns = [
     path('hello-world', views.HelloWorld.as_view()),
     path('upload-volunteers', views.VolunteerUploadView.as_view())
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

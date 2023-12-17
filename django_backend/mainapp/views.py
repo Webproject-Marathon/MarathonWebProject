@@ -33,6 +33,10 @@ class VolunteerViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['first_name', 'last_name', 'country__name', 'gender__name']
 
+class CharityViewSet(viewsets.ModelViewSet):
+    queryset = models.Charity.objects.all()
+    serializer_class = my_serializers.CharitySerializer
+
 class SignUpView(generics.CreateAPIView):
     queryset = models.Runner.objects.all()
     serializer_class = my_serializers.SignUpSerializer

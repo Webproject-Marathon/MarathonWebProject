@@ -37,6 +37,11 @@ class VolunteerSerializer(serializers.HyperlinkedModelSerializer):
         model = models.Volunteer
         fields = ['url', 'first_name', 'last_name', 'country', 'country_name', 'gender', 'gender_name']
 
+class CharitySerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = models.Charity
+        fields = ['name', 'description', 'logo']
+
 class SignUpSerializer(serializers.ModelSerializer):
     runner_profile = RunnerProfileSerializer(required=True)
 
