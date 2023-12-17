@@ -3,7 +3,8 @@ from rest_framework import generics, status, viewsets, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
-from . import models
+from django.db import models
+from . import models as my_models
 from . import serializers as my_serializers
 
 
@@ -12,33 +13,64 @@ class HelloWorld(APIView):
         return Response('hello world!')
     
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = models.User.objects.all()
+    queryset = my_models.User.objects.all()
     serializer_class = my_serializers.UserSerializer
 
 class GenderViewSet(viewsets.ModelViewSet):
-    queryset = models.Gender.objects.all()
+    queryset = my_models.Gender.objects.all()
     serializer_class = my_serializers.GenderSerializer
 
 class CountriesViewSet(viewsets.ModelViewSet):
-    queryset = models.Country.objects.all()
+    queryset = my_models.Country.objects.all()
     serializer_class = my_serializers.CountrySerializer
 
 class RunnerViewSet(viewsets.ModelViewSet):
-    queryset = models.Runner.objects.all()
+    queryset = my_models.Runner.objects.all()
     serializer_class = my_serializers.RunnerSerializer
 
 class VolunteerViewSet(viewsets.ModelViewSet):
-    queryset = models.Volunteer.objects.all()
+    queryset = my_models.Volunteer.objects.all()
     serializer_class = my_serializers.VolunteerSerializer
     filter_backends = [filters.OrderingFilter]
     ordering_fields = ['first_name', 'last_name', 'country__name', 'gender__name']
 
 class CharityViewSet(viewsets.ModelViewSet):
-    queryset = models.Charity.objects.all()
+    queryset = my_models.Charity.objects.all()
     serializer_class = my_serializers.CharitySerializer
 
+class SponsorshipViewSet(viewsets.ModelViewSet):
+    queryset = my_models.Sponsorship.objects.all()
+    serializer_class = my_serializers.SponsorshipSerializer
+
+class SponsorshipsByRegistration(APIView):
+    serializer_class = my_serializers.SponsorshipSerializer
+
+    def get(self, request, registration_id, format=None):
+        sponsorships = my_models.Sponsorship.objects.filter(registration_id=registration_id)
+        sponsorships_serialized = my_serializers.SponsorshipSerializer(sponsorships, many=True, context={'request': request})
+        print(sponsorships_serialized)
+        total_amount = sponsorships.aggregate(total_amount=models.Sum('amount'))['total_amount']
+        response_data = {
+            'sponsorships': sponsorships_serialized.data,
+            'total_amount': total_amount
+        }
+        return Response(response_data)
+
+
+class RegistrationViewSet(viewsets.ModelViewSet):
+    queryset = my_models.Registration.objects.all()
+    serializer_class = my_serializers.RegistrationSerializer
+
+class RaceKitOptionViewSet(viewsets.ModelViewSet):
+    queryset = my_models.RaceKitOption.objects.all()
+    serializer_class = my_serializers.RaceKitOptionSerializer
+
+class RegistrationStatusViewSet(viewsets.ModelViewSet):
+    queryset = my_models.RegistrationStatus.objects.all()
+    serializer_class = my_serializers.RegistrationStatusSerializer
+
 class SignUpView(generics.CreateAPIView):
-    queryset = models.Runner.objects.all()
+    queryset = my_models.Runner.objects.all()
     serializer_class = my_serializers.SignUpSerializer
 
     def create(self, request, *args, **kwargs):

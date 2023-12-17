@@ -1,60 +1,80 @@
 from rest_framework import serializers
-from . import models
+from . import models as my_models
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.User
+        model = my_models.User
         fields = ['email', 'first_name', 'last_name', 'password', 'role']
 
     def create(self, validated_data):
-        user = models.User.objects.create_user(**validated_data)
+        user = my_models.User.objects.create_user(**validated_data)
         return user
 
 class RunnerSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Runner
+        model = my_models.Runner
         fields = '__all__'
 
 class GenderSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Gender
+        model = my_models.Gender
         fields = '__all__'
 
 class CountrySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Country
+        model = my_models.Country
         fields =  '__all__'
 
 class RunnerProfileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Runner
+        model = my_models.Runner
         fields = ['date_of_birth', 'gender', 'country']
 
 class VolunteerSerializer(serializers.HyperlinkedModelSerializer):
     country_name = serializers.CharField(source='country.name', read_only=True)
     gender_name = serializers.CharField(source='gender.name', read_only=True)
     class Meta:
-        model = models.Volunteer
+        model = my_models.Volunteer
         fields = ['url', 'first_name', 'last_name', 'country', 'country_name', 'gender', 'gender_name']
 
 class CharitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = models.Charity
+        model = my_models.Charity
         fields = ['name', 'description', 'logo']
+
+class SponsorshipSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.Sponsorship
+        fields = ['name', 'registration', 'amount']
+
+class RegistrationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.Registration
+        fields = '__all__'
+
+class RaceKitOptionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.RaceKitOption
+        fields = '__all__'
+
+class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.RegistrationStatus
+        fields = '__all__'
 
 class SignUpSerializer(serializers.ModelSerializer):
     runner_profile = RunnerProfileSerializer(required=True)
 
     class Meta:
-        model = models.User
+        model = my_models.User
         fields = ['email', 'first_name', 'last_name', 'password', 'role', 'runner_profile']
     
     def create(self, validated_data):
         user_data = validated_data.copy()
         user_data.pop('runner_profile')
         runner_data = validated_data['runner_profile']
-        user = models.User.objects.create(**user_data)
-        models.Runner.objects.create(user=user, **runner_data)
+        user = my_models.User.objects.create(**user_data)
+        my_models.Runner.objects.create(user=user, **runner_data)
         return user
     
 class VolunteerCSVSerializer(serializers.Serializer):
@@ -69,11 +89,11 @@ class VolunteerCSVSerializer(serializers.Serializer):
         country_code = validated_data.pop('country_code')
         gender = {'F': 'Female', 'M': 'Male'}[validated_data.pop('gender')]
 
-        country = models.Country.objects.get(code=country_code)
-        gender = models.Gender.objects.get(name=gender)
+        country = my_models.Country.objects.get(code=country_code)
+        gender = my_models.Gender.objects.get(name=gender)
 
         data = dict(country=country, gender=gender, **validated_data)
-        volunteer, is_created = models.Volunteer.objects.get_or_create(pk=pk, defaults=data)
+        volunteer, is_created = my_models.Volunteer.objects.get_or_create(pk=pk, defaults=data)
         if not is_created:
             volunteer.country = country
             volunteer.gender = gender

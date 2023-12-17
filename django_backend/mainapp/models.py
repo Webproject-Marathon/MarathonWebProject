@@ -44,7 +44,7 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self) -> str:
-        return self.email
+        return str(self.email)
 
 
 class Runner(models.Model):
@@ -54,7 +54,7 @@ class Runner(models.Model):
     country = models.ForeignKey(Country, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
-        return self.user
+        return str(self.user)
     
 
 class EventType(models.Model):
