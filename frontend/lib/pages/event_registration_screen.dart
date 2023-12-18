@@ -96,6 +96,13 @@ class PageState extends ChangeNotifier {
     curPayment = 0;
     notifyListeners();
   }
+
+  bool validateDropdownMenus() {
+    if (curFond == "" || (isFullMarathon || isHalfMarathon || isShortRange)){
+      return false;
+    }
+    return true;
+  }
 }
 
 
@@ -333,7 +340,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
                           side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                         ),
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
+                          if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
+                            Navigator.pushNamed(context, '/event_reg');
                             //магия какая-то
                           }
                         },

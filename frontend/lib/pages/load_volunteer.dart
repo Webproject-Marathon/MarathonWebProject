@@ -34,7 +34,7 @@ class _LoadVolunteer extends State<LoadVolunteer> {
                       padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/manage_volonteer');
                     }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
                   ),
                 ),
