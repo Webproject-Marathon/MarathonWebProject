@@ -27,14 +27,14 @@ import 'package:marathon/pages/runner_menu.dart';
 import 'package:marathon/pages/runner_sponsor.dart';
 import 'package:marathon/pages/runner_registration_screen.dart';
 import 'package:marathon/pages/runner_profile_edit.dart';
+import 'package:marathon/pages/runner_profile_coord_edit_24.dart';
 import 'package:marathon/pages/user_management.dart';
 import 'package:marathon/pages/bmr_screen.dart';
 import 'package:marathon/pages/bmi_screen.dart';
 import 'pages/main_system_screen.dart';
-import 'package:provider/provider.dart';
 
 void main() => runApp(MaterialApp(
-  initialRoute: '/control_charity',
+  initialRoute: '/runner_coord_edit',
   routes: {
     '/home':(context) => const MainSystemScreen(),
     '/check':(context) => const CheckDataScreen(),
@@ -43,6 +43,7 @@ void main() => runApp(MaterialApp(
     '/runner_menu':(context) => const RunnerMenuScreen(),
     '/runner_reg':(context) => const RunnerRegistrationHomeScreen(),
     '/runner_edit':(context) => const RunnerProfileEditHomeScreen(),
+    '/runner_coord_edit':(context) => const RunnerProfileCoordEditHomeScreen(),
     '/coordinator_menu':(context) => const CoordinatorMenuScreen(),
     '/admin_menu':(context) => const AdminMenuScreen(),
     '/manage_runner':(context) => const ManageRunnerHomeScreen(),
@@ -68,6 +69,5 @@ void main() => runApp(MaterialApp(
     '/manage_volonteer':(context) => const ManageVolonteer(),
     '/control_charity':(context) => const ControlCharity(),
     '/blago': (context) => const Blago()
-
   },
 ));
