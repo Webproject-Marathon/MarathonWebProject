@@ -167,7 +167,7 @@ class SelectFromDBFormsState extends State<SelectFromDBForms> {
                         backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
                         side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                       ),
-                      onPressed: () { Navigator.pushNamed(context, '/home'); },
+                      onPressed: () { Navigator.pushNamed(context, '/add_user'); },
                       child: const Text(
                           '+ Добавление нового',
                           style: TextStyle(color: Colors.black, fontSize: 16)
