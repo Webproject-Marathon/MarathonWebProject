@@ -34,7 +34,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenWide = MediaQuery.sizeOf(context).width >= 900;
+    bool isScreenWide = MediaQuery.of(context).size.width >= 900;
 
     return Scaffold(
       appBar: AppBar(
@@ -105,7 +105,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
                             direction: isScreenWide ? Axis.horizontal : Axis.vertical,
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: const [
+                            children: [
                               Padding(
                                 padding: EdgeInsets.all(8.0),
                                 child: IntrinsicHeight (
@@ -188,7 +188,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
                                   side: BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                                 ),
                                 onPressed: () {
-                                  //магия какая-то
+                                  Navigator.pushNamed(context, '/certificate');
                                 },
                                 child: const Text(
                                   'Показ сертификата',
@@ -202,7 +202,7 @@ class ManageRunnerScreenState extends State<ManageRunnerScreen> {
                                   side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
                                 ),
                                 onPressed: () {
-                                  //магия какая-то
+                                  Navigator.pushNamed(context, '/certificate');
                                 },
                                 child: const Text(
                                   'Печать бейджа',
@@ -271,7 +271,7 @@ class _RegistrationStatusCheckState extends State<RegistrationStatusCheck> {
           child: Row(
             mainAxisSize:MainAxisSize.min,
             children: [
-              const Column(
+               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: <Widget> [

@@ -19,7 +19,7 @@ class _MyResultsScreen extends State<MyResultsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenWide = MediaQuery.sizeOf(context).width >= 1000;
+    bool isScreenWide = MediaQuery.of(context).size.width >= 1000;
 
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +87,7 @@ class _MyResultsScreen extends State<MyResultsScreen> {
                   padding: EdgeInsets.only(bottom: 40, top: 10),
                   child:Text('Мои результаты', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 92, 92, 92)),),
                 ),
-                const Column(
+                Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text('Это - список всех ваших прошлых результатов гонки Marathon Skills.', style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center),
