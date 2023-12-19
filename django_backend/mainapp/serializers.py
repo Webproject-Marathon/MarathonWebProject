@@ -1,4 +1,7 @@
-from rest_framework import serializers
+from django.contrib.auth import authenticate
+from django.shortcuts import get_object_or_404
+from rest_framework import serializers, exceptions
+from django.utils.translation import gettext as _
 from . import models as my_models
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -76,6 +79,31 @@ class SignUpSerializer(serializers.ModelSerializer):
         user = my_models.User.objects.create(**user_data)
         my_models.Runner.objects.create(user=user, **runner_data)
         return user
+    
+class AuthTokenSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(style={'input_type': 'password'})
+
+    def validate(self, data):
+        email = data.get('email')
+        password = data.get('password')
+
+        if email and password:
+            user = authenticate(email=email, password=password)
+
+            if user:
+                if not user.is_active:
+                    msg = _('User account is disabled.')
+                    raise exceptions.ValidationError(msg)
+            else:
+                msg = _('Unable to log in with provided credentials.')
+                raise exceptions.ValidationError(msg)
+        else:
+            msg = _('Must include "email" and "password".')
+            raise exceptions.ValidationError(msg)
+
+        data['user'] = user
+        return data
     
 class VolunteerCSVSerializer(serializers.Serializer):
     volunteer_id = serializers.IntegerField()

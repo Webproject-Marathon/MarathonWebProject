@@ -24,7 +24,7 @@ router.register(r'registration-statuses', views.RegistrationStatusViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('sign-up', views.SignUpView.as_view()),
-    path('api-token-auth', authtoken_views.obtain_auth_token),
+    path('api-token-auth/', views.CustomAuthToken.as_view()),
     path('hello-world', views.HelloWorld.as_view()),
     path('upload-volunteers', views.VolunteerUploadView.as_view()),
     path('sponsorships/by-registration/<int:registration_id>/', views.SponsorshipsByRegistration.as_view()),

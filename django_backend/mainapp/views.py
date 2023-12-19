@@ -3,6 +3,8 @@ from rest_framework import generics, status, viewsets, filters
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 from django.db import models
 from . import models as my_models
 from . import serializers as my_serializers
@@ -126,3 +128,21 @@ class VolunteerUploadView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         return Response({'success': f'{len(volunteers)} volunteers processed'}, status=status.HTTP_201_CREATED)
+
+class CustomAuthToken(APIView):
+    authentication_classes = [] 
+    permission_classes = []
+    serializer_class = my_serializers.UserSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = my_serializers.AuthTokenSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response({
+            'token': token.key,
+            'user_id': user.pk,
+            'email': user.email
+        })
+    
