@@ -65,6 +65,30 @@ class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
         model = my_models.RegistrationStatus
         fields = '__all__'
 
+class RegistrationEventSerializer(serializers.HyperlinkedModelSerializer):
+    country_name = serializers.CharField(source='registration.runner.country.name', read_only=True)
+    runner_first_name = serializers.CharField(source='registration.runner.user.first_name', read_only=True)
+    runner_last_name = serializers.CharField(source='registration.runner.user.last_name', read_only=True)
+
+    class Meta:
+        model = my_models.RegistrationEvent
+        fields = '__all__'
+
+class EventSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.Event
+        fields = '__all__'
+
+class EventTypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.EventType
+        fields = '__all__'
+
+class MarathonSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = my_models.Marathon
+        fields = '__all__'
+
 class SignUpSerializer(serializers.ModelSerializer):
     runner_profile = RunnerProfileSerializer(required=True)
 

@@ -8,6 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.db import models
 from . import models as my_models
 from . import serializers as my_serializers
+from rest_framework.request import Request
 
 
 class HelloWorld(APIView):
@@ -70,6 +71,34 @@ class RaceKitOptionViewSet(viewsets.ModelViewSet):
 class RegistrationStatusViewSet(viewsets.ModelViewSet):
     queryset = my_models.RegistrationStatus.objects.all()
     serializer_class = my_serializers.RegistrationStatusSerializer
+
+class RegistrationEventViewSet(viewsets.ModelViewSet):
+    queryset = my_models.RegistrationEvent.objects.all()
+    serializer_class = my_serializers.RegistrationEventSerializer
+
+    def list(self, request: Request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        marathon_id = request.query_params.get('marathon_id')
+        if marathon_id:
+            queryset = queryset.filter(event__marathon__id=marathon_id)
+        event_type = request.query_params.get('event_type')
+        if event_type:
+            queryset = queryset.filter(event__event_type__id=event_type)
+        queryset = queryset.order_by('race_time')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = my_models.Event.objects.all()
+    serializer_class = my_serializers.EventSerializer
+
+class EventTypeViewSet(viewsets.ModelViewSet):
+    queryset = my_models.EventType.objects.all()
+    serializer_class = my_serializers.EventTypeSerializer
+
+class MarathonViewSet(viewsets.ModelViewSet):
+    queryset = my_models.Marathon.objects.all()
+    serializer_class = my_serializers.MarathonSerializer
 
 class SignUpView(generics.CreateAPIView):
     queryset = my_models.Runner.objects.all()

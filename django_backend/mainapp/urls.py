@@ -19,6 +19,10 @@ router.register(r'sponsorships', views.SponsorshipViewSet)
 router.register(r'registrations', views.RegistrationViewSet)
 router.register(r'race-kit-options', views.RaceKitOptionViewSet)
 router.register(r'registration-statuses', views.RegistrationStatusViewSet)
+router.register(r'registration-events', views.RegistrationEventViewSet)
+router.register(r'events', views.EventViewSet)
+router.register(r'event-types', views.EventTypeViewSet)
+router.register(r'marathons', views.MarathonViewSet)
 
 
 urlpatterns = [
