@@ -1,4 +1,5 @@
 import csv
+from django.http import QueryDict
 from rest_framework import generics, status, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
@@ -7,9 +8,11 @@ from rest_framework.parsers import FormParser, MultiPartParser
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from django.db import models
+from django.db.models import F
 from . import models as my_models
 from . import serializers as my_serializers
 from rest_framework.request import Request
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class HelloWorld(APIView):
@@ -94,6 +97,34 @@ class RegistrationEventViewSet(viewsets.ModelViewSet):
         queryset = queryset.order_by('race_time')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+class RunnersManagementViewSet(viewsets.ModelViewSet):
+    queryset = my_models.RegistrationEvent.objects.all().annotate(
+        first_name=F('registration__runner__user__first_name'),
+        last_name=F('registration__runner__user__last_name'),
+        email=F('registration__runner__user__email'),
+        status_id=F('registration__registration_status__id'),
+        event_type_id=F('event__event_type__id'),
+    )
+    serializer_class = my_serializers.RunnerManagementSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        status_id = self.request.query_params.get('status_id')
+        event_type_id = self.request.query_params.get('event_type_id')
+        if status_id:
+            queryset = queryset.filter(registration__registration_status__id=status_id)
+        if event_type_id:
+            queryset = queryset.filter(event__event_type__id=event_type_id)
+
+        ordering = self.request.query_params.get('ordering')
+        if ordering:
+            queryset = queryset.order_by(ordering)
+
+        return queryset
+
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = my_models.Event.objects.all()
