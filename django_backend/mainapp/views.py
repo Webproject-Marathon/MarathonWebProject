@@ -1,5 +1,6 @@
 import csv
 from rest_framework import generics, status, viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, MultiPartParser
@@ -18,6 +19,12 @@ class HelloWorld(APIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = my_models.User.objects.all()
     serializer_class = my_serializers.UserSerializer
+    search_fields = ['email', 'first_name', 'last_name']
+    filterset_fields = ['email', 'first_name', 'last_name', 'role']
+
+    def list(self, request, *args, **kwargs):
+        print(request.query_params)
+        return super().list(request, *args, **kwargs)
 
 class GenderViewSet(viewsets.ModelViewSet):
     queryset = my_models.Gender.objects.all()
