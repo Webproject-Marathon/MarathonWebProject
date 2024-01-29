@@ -35,7 +35,7 @@ import 'pages/main_system_screen.dart';
 import 'package:marathon/pages/autorization.dart';
 
 void main() => runApp(MaterialApp(
-      initialRoute: '/login',
+      initialRoute: '/home',
       routes: {
         '/home': (context) => const MainSystemScreen(),
         '/check': (context) => const CheckDataScreen(),

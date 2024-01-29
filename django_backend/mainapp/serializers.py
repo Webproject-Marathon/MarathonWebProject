@@ -7,7 +7,7 @@ from . import models as my_models
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = my_models.User
-        fields = ['email', 'first_name', 'last_name', 'password', 'role']
+        fields = ['url', 'email', 'first_name', 'last_name', 'password', 'role']
 
     def create(self, validated_data):
         user = my_models.User.objects.create_user(**validated_data)

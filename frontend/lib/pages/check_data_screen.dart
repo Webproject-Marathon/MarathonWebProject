@@ -141,7 +141,7 @@ class _Content extends State<Content> {
                           backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                           padding: MaterialStateProperty.all(EdgeInsets.all(5))
                         ),
-                          onPressed: () {Navigator.pushNamed(context, '/check');}, 
+                          onPressed: () {Navigator.pushNamed(context, '/login');},
                           child: const Text('Я участвовал ранее', style: TextStyle(fontSize: 20,color: Colors.black))),
                     ),
                     SizedBox(
@@ -157,7 +157,7 @@ class _Content extends State<Content> {
                           backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                           padding: MaterialStateProperty.all(EdgeInsets.all(5))
                         ),
-                          onPressed: () {Navigator.pushNamed(context, '/runner_sponsor');}, 
+                          onPressed: () {Navigator.pushNamed(context, '/runner_reg');},
                           child: const Text('Я новый участник', style: TextStyle(fontSize: 20,color: Colors.black))),
                     ),
                   ]
