@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:string_validator/string_validator.dart';
 import 'package:marathon/classes/text_presets.dart';
+import 'dart:convert';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+
 
 class RunnerRegistrationHomeScreen extends StatelessWidget {
   const RunnerRegistrationHomeScreen({super.key});
@@ -20,19 +24,30 @@ class PageState extends ChangeNotifier {
   var curGender = "";
   var curCountry = "";
 
+  static List<Map<dynamic, dynamic>> genderList = [];
+  static List<Map<dynamic, dynamic>> countryList = [];
+
   void updatePfp(value){
     pfpPath = value;
     notifyListeners();
   }
 
   void updateDropdownMenuValue(value){
-    if (RegistrationFormsState.genderList.contains(value)) {
-      curGender = value;
+    for (final e in genderList) {
+      if (e.containsValue(value)) {
+        curGender = value;
+        notifyListeners();
+        return;
+      }
     }
-    else if (RegistrationFormsState.countryList.contains(value)) {
-      curCountry = value;
+    for (final e in countryList) {
+      if (e.containsValue(value)) {
+        curCountry = value;
+        notifyListeners();
+        return;
+      }
     }
-    notifyListeners();
+    print ("something is wrong with your gender... ${value}");
   }
   void updateCountry(value){
     curCountry = value;
@@ -67,6 +82,14 @@ class RunnerRegistrationScreen extends StatefulWidget {
 }
 
 class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
+
+  @override
+  void initState() {
+    super.initState();
+    _getGenders();
+    _getCountries();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,17 +149,36 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(12),
-        height: 50.0,
-        color: const Color.fromRGBO(82, 82, 82, 1),
-        child: Text(
-            'тут будет таймер',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, color: Colors.white)
-        ),
-      ),
+      bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
+  }
+
+  _getGenders() async {
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/genders/'));
+    var response = await http.Client().send(request);
+    if (response.statusCode == 200){
+      var responseData = await response.stream.bytesToString();
+      var jsonResponse = json.decode(responseData);
+      List<Map<dynamic, dynamic>> list = [];
+      for (var e in jsonResponse) { list.add(e); }
+      PageState.genderList = list;
+    } else {
+      print('гендеров не существует! ${response.reasonPhrase}');
+    }
+  }
+
+  void _getCountries() async {
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/countries/'));
+    var response = await http.Client().send(request);
+    if (response.statusCode == 200){
+      var responseData = await response.stream.bytesToString();
+      var jsonResponse = json.decode(responseData);
+      List<Map<dynamic, dynamic>> list = [];
+      for (var e in jsonResponse) { list.add(e); }
+      PageState.countryList = list;
+    } else {
+      print('стран не существует! ${response.reasonPhrase}');
+    }
   }
 }
 
@@ -158,8 +200,44 @@ class RegistrationFormsState extends State<RegistrationForms> {
   final _surnameController = TextEditingController();
   final _birthController = TextEditingController();
 
-  static final genderList = ['male', 'female'];
-  static final countryList = ['country1', 'country2', 'country3']; //заменить на данные бд
+  void _register(PageState pageState) async {
+    var usersRequest = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:8000/users/'));
+    usersRequest.fields.addAll({
+      'email': _emailController.text,
+      'first_name': _nameController.text,
+      'last_name': _surnameController.text,
+      'password': _pwController.text,
+      'role': "R"
+    });
+
+    try {
+      var usersResponse = await usersRequest.send();
+      if (usersResponse.statusCode == 201) {
+        String responseBody = await usersResponse.stream.bytesToString();
+        var jsonResponse = json.decode(responseBody);
+        String userUrl = jsonResponse['url'];
+
+        var runnersRequest = http.MultipartRequest(
+            'POST', Uri.parse('http://127.0.0.1:8000/runners/'));
+        runnersRequest.fields.addAll({
+        'date_of_birth': _birthController.text,
+        'user': userUrl,
+        'gender': pageState.curGender,
+        'country': pageState.curCountry
+        });
+
+        var runnerResponse = await runnersRequest.send();
+        if (runnerResponse.statusCode != 201) {
+          print("и снова бан. ${runnerResponse.statusCode}: ${runnerResponse.reasonPhrase} ");
+        }
+      } else {
+        print("бан от паши. ${usersResponse.statusCode}: ${usersResponse.reasonPhrase}");
+      }
+    } catch (e) {
+      print('ошибка!! $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,9 +316,9 @@ class RegistrationFormsState extends State<RegistrationForms> {
                                     if (value!.contains(item)) hasSpecialSymbols = true;
                                   }
 
-                                  if (value == null || value.isEmpty ||
-                                      !hasSpecialSymbols || _pwController.text.length < 6 ||
-                                      !value.contains(RegExp(r'[A-Z]')) || !value.contains(RegExp(r'[0-9]'))) {
+                                  if (value == null || value.isEmpty //||
+                                      //!hasSpecialSymbols || _pwController.text.length < 6 ||
+                                      /*!value.contains(RegExp(r'[A-Z]')) || !value.contains(RegExp(r'[0-9]'))*/) {
                                     return 'Неверный ввод';
                                   }
                                   return null;
@@ -345,7 +423,7 @@ class RegistrationFormsState extends State<RegistrationForms> {
                               ),
                             ), //surn
                             const SizedBox(height: 5),
-                            RegDropdownMenu(list: genderList,)
+                            RegDropdownMenu(list: PageState.genderList,)
                           ],
                         ),
                       ],
@@ -405,7 +483,7 @@ class RegistrationFormsState extends State<RegistrationForms> {
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                RegDropdownMenu(list: countryList,)
+                                RegDropdownMenu(list: PageState.countryList,)
                               ],
                             ),
                           ],
@@ -427,7 +505,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
-                        Navigator.pushNamed(context, '/event_reg');
+                        _register(pageState);
+                        //Navigator.pushNamed(context, '/event_reg');
                         //магия какая-то
                       }
                     },
@@ -463,8 +542,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
 
 
 class RegDropdownMenu extends StatelessWidget {
-  static const defaultList = [''];
-  final List<String> list;
+  static const List<Map<dynamic, dynamic>> defaultList = [];
+  final List<Map<dynamic, dynamic>> list;
 
   const RegDropdownMenu({
     super.key,
@@ -495,10 +574,10 @@ class RegDropdownMenu extends StatelessWidget {
       onSelected: (String? value) {
         pageState.updateDropdownMenuValue(value);
       },
-      dropdownMenuEntries: curList.map<DropdownMenuEntry<String>>((String value) {
+      dropdownMenuEntries: curList.map<DropdownMenuEntry<String>>((Map<dynamic, dynamic> map) {
         return DropdownMenuEntry<String>(
-          value: value,
-          label: value,
+          value: map['url'],
+          label: map['name'],
           style: const ButtonStyle(
               textStyle: MaterialStatePropertyAll(TextStyle(fontSize: 16))
           ),
@@ -541,9 +620,9 @@ class ImageFormState extends State<ImageForm> {
                 child: TextFormField(
                   controller: _pathController,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Неверный ввод';
-                    }
+                    // if (value == null || value.isEmpty) {
+                    //   return 'Неверный ввод';
+                    // }
                     return null;
                   },
                   decoration: const InputDecoration(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 import 'package:provider/provider.dart';
 
 class Authorization extends StatelessWidget {
@@ -244,20 +244,7 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(12),
-        height: 50.0,
-        color: Color.fromARGB(255, 87, 87, 87),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
-            Text(
-              '18 дней, 8 часов и 17 минут до старта марафона!',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            )
-          ],
-        ),
-      ),
+      bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
   }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/classes/text_presets.dart';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+
 
 class BMRHomeScreen extends StatelessWidget {
   const BMRHomeScreen({super.key});
@@ -167,17 +169,7 @@ class _BMRScreenState extends State<BMRScreen> {
         ],
         backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: Color.fromRGBO(82, 82, 82, 1),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Text(
-            "тут будет таймер",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      ),
+      bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
   }
 }

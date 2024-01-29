@@ -23,6 +23,7 @@ router.register(r'registration-events', views.RegistrationEventViewSet)
 router.register(r'events', views.EventViewSet)
 router.register(r'event-types', views.EventTypeViewSet)
 router.register(r'marathons', views.MarathonViewSet)
+router.register(r'runner-management', views.RunnersManagementViewSet)
 
 
 urlpatterns = [

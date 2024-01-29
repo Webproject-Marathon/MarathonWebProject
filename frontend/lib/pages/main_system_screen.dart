@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
 class MainSystemScreen extends StatelessWidget {
   const MainSystemScreen({super.key});
@@ -25,7 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(context) => Scaffold(
-        appBar: AppBar(
+    appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 87, 87, 87),
           toolbarHeight: 140,
           centerTitle: true,
@@ -61,20 +62,7 @@ class _HomePage extends State<HomePage> {
           Container(width: MediaQuery.of(context).size.width, child: Content()),
           Container(height: 70, width: 110, child: LoginButton())
         ]))),
-        bottomNavigationBar: Container(
-          padding: EdgeInsets.all(12),
-          height: 50.0,
-          color: Color.fromARGB(255, 87, 87, 87),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                '18 дней, 8 часов и 17 минут до старта марафона!',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-              )
-            ],
-          ),
-        ),
+        bottomNavigationBar: const BottomNavigationBarWithTimer(),
       );
 }
 
