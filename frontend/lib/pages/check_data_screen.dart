@@ -119,51 +119,42 @@ class _Content extends State<Content> {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        width: 350,
-                        height: 80,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 233, 233, 233)),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(5))),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/login');
-                            },
-                            child: const Text('Я участвовал ранее',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black))),
-                      ),
-                      SizedBox(
-                        width: 350,
-                        height: 80,
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(
-                                    Color.fromARGB(255, 233, 233, 233)),
-                                padding: MaterialStateProperty.all(
-                                    EdgeInsets.all(5))),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/runner_sponsor');
-                            },
-                            child: const Text('Я новый участник',
-                                style: TextStyle(
-                                    fontSize: 20, color: Colors.black))),
-                      ),
-                    ]),
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SizedBox(
+                      width: 350,
+                      height: 80,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
+                          padding: MaterialStateProperty.all(EdgeInsets.all(5))
+                        ),
+                          onPressed: () {Navigator.pushNamed(context, '/login');},
+                          child: const Text('Я участвовал ранее', style: TextStyle(fontSize: 20,color: Colors.black))),
+                    ),
+                    SizedBox(
+                      width: 350,
+                      height: 80,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
+                          padding: MaterialStateProperty.all(EdgeInsets.all(5))
+                        ),
+                          onPressed: () {Navigator.pushNamed(context, '/runner_reg');},
+                          child: const Text('Я новый участник', style: TextStyle(fontSize: 20,color: Colors.black))),
+                    ),
+                  ]
+                ),
               ),
             ));
       }));
