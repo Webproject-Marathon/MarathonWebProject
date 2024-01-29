@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/classes/text_presets.dart';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+
 
 class EventRegistrationHomeScreen extends StatelessWidget {
   const EventRegistrationHomeScreen({super.key});
@@ -201,16 +203,7 @@ class EventRegistrationScreenState extends State<EventRegistrationScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(12),
-        height: 50.0,
-        color: const Color.fromRGBO(82, 82, 82, 1),
-        child: Text(
-            'тут будет таймер',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, color: Colors.white)
-        ),
-      ),
+      bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
   }
 }

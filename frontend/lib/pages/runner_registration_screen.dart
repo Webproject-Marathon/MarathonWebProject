@@ -4,6 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:string_validator/string_validator.dart';
 import 'package:marathon/classes/text_presets.dart';
 import 'dart:convert';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+
 
 class RunnerRegistrationHomeScreen extends StatelessWidget {
   const RunnerRegistrationHomeScreen({super.key});
@@ -147,16 +149,7 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: const EdgeInsets.all(12),
-        height: 50.0,
-        color: const Color.fromRGBO(82, 82, 82, 1),
-        child: Text(
-            'тут будет таймер',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, color: Colors.white)
-        ),
-      ),
+      bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
   }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+
 
 class ConfirmSponsorScreen extends StatelessWidget {
   const ConfirmSponsorScreen({super.key});
@@ -69,17 +71,7 @@ class _HomePage extends State<HomePage> {
             ),
         )
     ),
-    bottomNavigationBar: Container(
-      padding: EdgeInsets.all(12),
-      height: 50.0,
-      color: Color.fromARGB(255, 87, 87, 87),
-      child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text('18 дней, 8 часов и 17 минут до старта марафона!', style: TextStyle(fontSize: 18,color: Colors.white),)
-            ],
-    ),
-    ),
+    bottomNavigationBar: const BottomNavigationBarWithTimer(),
   );
 }
 
