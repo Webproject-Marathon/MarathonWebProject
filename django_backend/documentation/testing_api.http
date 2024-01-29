@@ -1,0 +1,10 @@
+GET http://127.0.0.1:8000/runner-management/1/ HTTP/1.1
+
+###
+
+POST http://127.0.0.1:8000/runner-management/1/change_registration_status/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "new_status_id": -1
+}
