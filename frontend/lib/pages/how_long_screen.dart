@@ -13,7 +13,54 @@ class HowLongScreen extends StatelessWidget {
   }
 }
 
-class PageState extends ChangeNotifier {}
+class PageState extends ChangeNotifier {
+  bool isFirstButtonSelected = false;
+  bool isSecondButtonSelected = false;
+
+  String selectedItemImage1 = 'how_long_imgs/f1-car.jpg'; 
+  String selectedItemImage2 = 'how_long_imgs/worm.jpg'; 
+  String selectedItemImage3 = 'how_long_imgs/sloth.jpg'; 
+  String selectedItemImage4 = 'how_long_imgs/slug.jpg'; 
+  String selectedItemImage5 = 'how_long_imgs/jaguar.jpg';
+
+  String selectedItemDescription1 = 'Машина F1'; 
+  String selectedItemDescription2 = 'Червь'; 
+  String selectedItemDescription3 = 'Ленивец'; 
+  String selectedItemDescription4 = 'Капибара'; 
+  String selectedItemDescription5 = 'Ягуар'; 
+
+  void selectFirstButton() {
+    isFirstButtonSelected = true;
+    isSecondButtonSelected = false;
+    selectedItemImage1 = 'how_long_imgs/f1-car.jpg'; 
+    selectedItemImage2 = 'how_long_imgs/worm.jpg'; 
+    selectedItemImage3 = 'how_long_imgs/sloth.jpg'; 
+    selectedItemImage4 = 'how_long_imgs/slug.jpg'; 
+    selectedItemImage5 = 'how_long_imgs/jaguar.jpg'; 
+    selectedItemDescription1 = 'Машина F1'; 
+    selectedItemDescription2 = 'Червь'; 
+    selectedItemDescription3 = 'Ленивец'; 
+    selectedItemDescription4 = 'Капибара'; 
+    selectedItemDescription5 = 'Ягуар'; 
+    notifyListeners();
+  }
+
+  void selectSecondButton() {
+    isFirstButtonSelected = false;
+    isSecondButtonSelected = true;
+    selectedItemImage1 = 'how_long_imgs/airbus-a380.jpg'; 
+    selectedItemImage2 = 'how_long_imgs/pair-of-havaianas.jpg'; 
+    selectedItemImage3 = 'how_long_imgs/football-field.jpg'; 
+    selectedItemImage4 = 'how_long_imgs/ronaldinho.jpg'; 
+    selectedItemImage5 = 'how_long_imgs/bus.jpg';
+    selectedItemDescription1 = 'Самолет А380'; 
+    selectedItemDescription2 = 'Гавайские сандали'; 
+    selectedItemDescription3 = 'Футбольное поле'; 
+    selectedItemDescription4 = 'Рональдо'; 
+    selectedItemDescription5 = 'Автобус'; 
+    notifyListeners();
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -139,49 +186,65 @@ class Context1 extends StatefulWidget {
 
 class _Context1 extends State<Context1> {
   @override
-  Widget build(context) =>
-    Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return AnimatedContainer(
-            duration: Duration(milliseconds: 500),
-            color: Color.fromARGB(255, 252, 252, 252),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: 500,
-                  maxHeight: 450,
+  Widget build(context) => Scaffold(
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            return AnimatedContainer(
+              duration: Duration(milliseconds: 500),
+              color: Color.fromARGB(255, 252, 252, 252),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 500,
+                    maxHeight: 450,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 252, 252, 252),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        'Имя выбранного пункта',
+                        style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 87, 87, 87)),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 233, 233, 233),
+                            border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
+                        width: 400,
+                        height: 250,
+                        child: GestureDetector(
+                          onTap: () {
+                            print('Открыть выбранную картинку');
+                          },
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Image.asset(
+                              context.watch<PageState>().selectedItemImage1,
+                              width: 400,
+                              height: 400,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        'Информация о скорости выбранного пункта и сколько времени это взяло бы, чтобы закончить марафон.',
+                        style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 252, 252, 252),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Имя выбранного пункта', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center,),
-                    Container(
-                    decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 233, 233, 233),
-                      border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
-                      width: 400,
-                      height: 250,
-                      child:Align(
-                        alignment: Alignment.center,
-                        child: Text('Выбранное photo', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87))),
-                      )
-                    ),
-                    Text('Информация о скорости выбранного пункта и сколько времени это взяло бы, чтобы закончить марафон.', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center)
-                    
-                  ],
-                )
-              )
-            )
-          );
-        }
-      )
-   );
+              ),
+            );
+          },
+        ),
+      );
 }
 
 class Context2 extends StatefulWidget {
@@ -229,10 +292,16 @@ class _Context2 extends State<Context2> {
                                   borderRadius: BorderRadius.circular(00),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
+                              backgroundColor: MaterialStateProperty.all(
+                                context.watch<PageState>().isFirstButtonSelected
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 233, 233, 233),
+                              ),
                               padding: MaterialStateProperty.all(EdgeInsets.all(5))
                             ),
-                              onPressed: () {},
+                            onPressed: () {
+                              context.read<PageState>().selectFirstButton();
+                            },
                               child: const Text('Скорость', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)))),
                         ),
                         Container(
@@ -247,10 +316,16 @@ class _Context2 extends State<Context2> {
                                   borderRadius: BorderRadius.circular(0),
                                 ),
                               ),
-                              backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
+                              backgroundColor: MaterialStateProperty.all(
+                                context.watch<PageState>().isSecondButtonSelected
+                                    ? Colors.white
+                                    : Color.fromARGB(255, 233, 233, 233),
+                              ),
                               padding: MaterialStateProperty.all(EdgeInsets.all(5))
                             ),
-                              onPressed: () {},
+                              onPressed: () {
+                                context.read<PageState>().selectSecondButton();
+                              },
                               child: const Text('Дистанция', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)))),
                         ),
                       ],
@@ -267,103 +342,173 @@ class _Context2 extends State<Context2> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  width: 40
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 233, 233, 233),
-                                    border: Border.all(color: Color.fromARGB(255, 198, 198, 198), width: 1.5)),
+                                    border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
                                     width: 120,
                                     height: 80,
-                                    child:Align(
+                                    child: Align(
                                       alignment: Alignment.center,
-                                      child: Text('Photo 1', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
-                                    )
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          context.watch<PageState>().selectedItemImage1,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                 ),
-                                Text('Название 1', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
                                 SizedBox(
-                                  width: 100,
+                                  width: 40
+                                ),
+                                Text(
+                                  context.watch<PageState>().selectedItemDescription1,
+                                  style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                                  textAlign: TextAlign.center,
                                 )
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  width: 40
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 233, 233, 233),
-                                    border: Border.all(color: Color.fromARGB(255, 198, 198, 198), width: 1.5)),
+                                    border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
                                     width: 120,
                                     height: 80,
-                                    child:Align(
+                                    child: Align(
                                       alignment: Alignment.center,
-                                      child: Text('Photo 2', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
-                                    )
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          context.watch<PageState>().selectedItemImage2,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                 ),
-                                Text('Название 2', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
                                 SizedBox(
-                                  width: 100,
-                                )
+                                  width: 40
+                                ),
+                                Text(
+                                  context.watch<PageState>().selectedItemDescription2,
+                                  style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                                  textAlign: TextAlign.center,
+                                ),
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  width: 40
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 233, 233, 233),
-                                    border: Border.all(color: Color.fromARGB(255, 198, 198, 198), width: 1.5)),
+                                    border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
                                     width: 120,
                                     height: 80,
-                                    child:Align(
+                                    child: Align(
                                       alignment: Alignment.center,
-                                      child: Text('Photo 3', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
-                                    )
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          context.watch<PageState>().selectedItemImage3,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                 ),
-                                Text('Название 3', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
                                 SizedBox(
-                                  width: 100,
-                                )
+                                  width: 40
+                                ),
+                                Text(
+                                  context.watch<PageState>().selectedItemDescription3,
+                                  style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                                  textAlign: TextAlign.center,
+                                ),
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  width: 40
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 233, 233, 233),
-                                    border: Border.all(color: Color.fromARGB(255, 198, 198, 198), width: 1.5)),
+                                    border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
                                     width: 120,
                                     height: 80,
-                                    child:Align(
+                                    child: Align(
                                       alignment: Alignment.center,
-                                      child: Text('Photo 4', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
-                                    )
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          context.watch<PageState>().selectedItemImage4,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                 ),
-                                Text('Название 4', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
                                 SizedBox(
-                                  width: 100,
-                                )
+                                  width: 40
+                                ),
+                                Text(
+                                  context.watch<PageState>().selectedItemDescription4,
+                                  style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                                  textAlign: TextAlign.center,
+                                ),
                               ],
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                SizedBox(
+                                  width: 40
+                                ),
                                 Container(
                                   decoration: BoxDecoration(
                                     color: Color.fromARGB(255, 233, 233, 233),
-                                    border: Border.all(color: Color.fromARGB(255, 198, 198, 198), width: 1.5)),
+                                    border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
                                     width: 120,
                                     height: 80,
-                                    child:Align(
+                                    child: Align(
                                       alignment: Alignment.center,
-                                      child: Text('Photo 5', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
-                                    )
+                                      child: ClipRRect(
+                                        child: Image.asset(
+                                          context.watch<PageState>().selectedItemImage5,
+                                          width: 200,
+                                          height: 200,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                 ),
-                                Text('Название 5', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)), textAlign: TextAlign.center,),
                                 SizedBox(
-                                  width: 100,
-                                )
+                                  width: 40
+                                ),
+                                Text(
+                                  context.watch<PageState>().selectedItemDescription5,
+                                  style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
+                                  textAlign: TextAlign.center,
+                                ),
                               ],
                             ),
                           ]
