@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate
-from django.shortcuts import get_object_or_404
 from rest_framework import serializers, exceptions
 from django.utils.translation import gettext as _
 from . import models as my_models
@@ -63,7 +62,7 @@ class RaceKitOptionSerializer(serializers.HyperlinkedModelSerializer):
 class RegistrationStatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = my_models.RegistrationStatus
-        fields = '__all__'
+        fields = '__all__' 
 
 class RegistrationEventSerializer(serializers.HyperlinkedModelSerializer):
     country_name = serializers.CharField(source='registration.runner.country.name', read_only=True)
@@ -73,6 +72,16 @@ class RegistrationEventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = my_models.RegistrationEvent
         fields = '__all__'
+
+class RunnerManagementSerializer(serializers.HyperlinkedModelSerializer):
+    runner_first_name = serializers.CharField(source='registration.runner.user.first_name', read_only=True)
+    runner_last_name = serializers.CharField(source='registration.runner.user.last_name', read_only=True)
+    runner_email = serializers.EmailField(source='registration.runner.user.email', read_only=True)
+    registration_status = serializers.CharField(source='registration.registration_status.status', read_only=True)
+
+    class Meta:
+        model = my_models.RegistrationEvent
+        fields = ['url', 'runner_first_name', 'runner_last_name', 'runner_email', 'registration_status', 'registration']
 
 class EventSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

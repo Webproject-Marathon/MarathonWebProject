@@ -25,84 +25,90 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: Color.fromARGB(255, 87, 87, 87),
-      automaticallyImplyLeading: false,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Align(
-          alignment: Alignment.centerLeft,
-          child:
+        appBar: AppBar(
+          backgroundColor: Color.fromARGB(255, 87, 87, 87),
+          automaticallyImplyLeading: false,
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerLeft,
+                child: SizedBox(
+                  width: 80,
+                  height: 35,
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
+                        backgroundColor: MaterialStateProperty.all(
+                            Color.fromARGB(255, 215, 215, 215)),
+                        padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/home');
+                      },
+                      child: const Text('Назад',
+                          style: TextStyle(fontSize: 20, color: Colors.black))),
+                ),
+              ),
+              Padding(
+                  padding: EdgeInsets.only(left: 12, right: 12),
+                  child: Text(
+                    'MARATHON SKILLS 2023',
+                    style: TextStyle(
+                        fontWeight: FontWeight.w900,
+                        fontSize: 25,
+                        color: Colors.white),
+                  )),
               SizedBox(
-              width: 80,
-              height: 35,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                width: 80,
+                height: 35,
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 215, 215, 215)),
+                      padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                     ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/home');
+                    },
+                    child: const Text('Logout',
+                        style: TextStyle(fontSize: 20, color: Colors.black))),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left:12, right: 12),
-              child: 
-                Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25,color: Colors.white),)
-            ),
-            SizedBox(
-            width: 80,
-            height: 35,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-              ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              }, child: const Text('Logout', style: TextStyle(fontSize: 20,color: Colors.black))),
-            ),
-        ],
-      ),
-    ),
-    body: SafeArea(
-        child:Center(
-          child: MediaQuery.of(context).size.width <= 800 ?
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Content1()
-            )
-            :
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Content2()
-            ),
-        )
-    ),
-    bottomNavigationBar: Container(
-      padding: EdgeInsets.all(12),
-      height: 50.0,
-      color: Color.fromARGB(255, 87, 87, 87),
-      child: Row(
+            ],
+          ),
+        ),
+        body: SafeArea(
+            child: Center(
+          child: MediaQuery.of(context).size.width <= 800
+              ? Container(
+                  width: MediaQuery.of(context).size.width, child: Content1())
+              : Container(
+                  width: MediaQuery.of(context).size.width, child: Content2()),
+        )),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.all(12),
+          height: 50.0,
+          color: Color.fromARGB(255, 87, 87, 87),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text('18 дней, 8 часов и 17 минут до старта марафона!', style: TextStyle(fontSize: 18,color: Colors.white),)
+              Text(
+                '18 дней, 8 часов и 17 минут до старта марафона!',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+              )
             ],
-    ),
-    ),
-  );
+          ),
+        ),
+      );
 }
 
 class Content1 extends StatefulWidget {
@@ -115,122 +121,155 @@ class Content1 extends StatefulWidget {
 class _Content1 extends State<Content1> {
   @override
   Widget build(context) =>
-    Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return AnimatedContainer(
+      Scaffold(body: LayoutBuilder(builder: (context, constraints) {
+        return AnimatedContainer(
             duration: Duration(milliseconds: 500),
             color: Color.fromARGB(255, 255, 255, 255),
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 30.0, horizontal: 25.0
-                ),
-                constraints: BoxConstraints(
-                  maxWidth: 600,
-                  maxHeight: 900,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Text('Меню бегуна', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87))),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      width: 350,
-                      height: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                          padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                        ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/event_reg');
-                            }, child: const Text('Регистрация на марафон', style: TextStyle(fontSize: 25,color: Colors.black))),
-                    ),
-                    SizedBox(
-                      width: 350,
-                      height: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                          padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                        ),
-                          onPressed: () {}, child: const Text('Мои результаты', style: TextStyle(fontSize: 25,color: Colors.black))),
-                    ),
-                    SizedBox(
-                      width: 350,
-                      height: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                          padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                        ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/runner_edit');
-                            }, child: const Text('Редактирование профиля', style: TextStyle(fontSize: 25,color: Colors.black))),
-                    ),
-                    SizedBox(
-                      width: 350,
-                      height: 80,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                        ),
-                          onPressed: () {}, child: const Text('Мой спонсор', style: TextStyle(fontSize: 25, color: Colors.black), textAlign: TextAlign.center)),
-                    ),
-                    SizedBox(
-                    width: 350,
-                    height: 80,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                      ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/check');
-                          }, child: const Text('Контакты', style: TextStyle(fontSize: 25,color: Colors.black))),
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
+                  constraints: BoxConstraints(
+                    maxWidth: 600,
+                    maxHeight: 900,
                   ),
-                  ]
-                )
-              ),
-            )
-          );
-        }
-      )
-   );
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text('Меню бегуна',
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 87, 87, 87))),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        SizedBox(
+                          width: 350,
+                          height: 80,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color.fromARGB(255, 233, 233, 233)),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(5))),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/event_reg');
+                              },
+                              child: const Text('Регистрация на марафон',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.black))),
+                        ),
+                        SizedBox(
+                          width: 350,
+                          height: 80,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color.fromARGB(255, 233, 233, 233)),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(5))),
+                              onPressed: () {},
+                              child: const Text('Мои результаты',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.black))),
+                        ),
+                        SizedBox(
+                          width: 350,
+                          height: 80,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                  ),
+                                  backgroundColor: MaterialStateProperty.all(
+                                      Color.fromARGB(255, 233, 233, 233)),
+                                  padding: MaterialStateProperty.all(
+                                      EdgeInsets.all(5))),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/runner_edit');
+                              },
+                              child: const Text('Редактирование профиля',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.black))),
+                        ),
+                        SizedBox(
+                          width: 350,
+                          height: 80,
+                          child: ElevatedButton(
+                              style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 233, 233, 233)),
+                              ),
+                              onPressed: () {},
+                              child: const Text('Мой спонсор',
+                                  style: TextStyle(
+                                      fontSize: 25, color: Colors.black),
+                                  textAlign: TextAlign.center)),
+                        ),
+                        SizedBox(
+                          width: 350,
+                          height: 80,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                backgroundColor: MaterialStateProperty.all(
+                                    Color.fromARGB(255, 233, 233, 233)),
+                                padding: MaterialStateProperty.all(
+                                    EdgeInsets.all(5))),
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Контакты'),
+                                    content: Text(
+                                        'Обращайтесь по номеру телефона: 89353859357'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Закрыть'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Text('Контакты',
+                                style: TextStyle(
+                                    fontSize: 25, color: Colors.black)),
+                          ),
+                        )
+                      ])),
+            ));
+      }));
 }
 
 class Content2 extends StatefulWidget {
@@ -243,148 +282,210 @@ class Content2 extends StatefulWidget {
 class _Content2 extends State<Content2> {
   @override
   Widget build(context) =>
-    Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return AnimatedContainer(
+      Scaffold(body: LayoutBuilder(builder: (context, constraints) {
+        return AnimatedContainer(
             duration: Duration(milliseconds: 500),
             color: Color.fromARGB(255, 255, 255, 255),
-            padding: constraints.maxHeight < 500 ? EdgeInsets.zero : EdgeInsets.zero ,
+            padding:
+                constraints.maxHeight < 500 ? EdgeInsets.zero : EdgeInsets.zero,
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 30.0, horizontal: 25.0
-                ),
-                constraints: BoxConstraints(
-                  maxWidth: 800,
-                  maxHeight: 600,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Меню бегуна', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87))),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
+                  constraints: BoxConstraints(
+                    maxWidth: 800,
+                    maxHeight: 600,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 350,
-                              height: 80,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                                  padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                                ),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/event_reg');
-                                    }, child: const Text('Регистрация на марафон', style: TextStyle(fontSize: 25,color: Colors.black))),
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 350,
-                              height: 80,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                                  padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                                ),
-                                  onPressed: () {Navigator.pushNamed(context, '/my_results');}, child: const Text('Мои результаты', style: TextStyle(fontSize: 25,color: Colors.black))),
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                              width: 350,
-                              height: 80,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                                  padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                                ),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/runner_edit');
-                                    }, child: const Text('Редактирование профиля', style: TextStyle(fontSize: 25,color: Colors.black))),
-                            ),
-                          ]
+                        Text('Меню бегуна',
+                            style: TextStyle(
+                                fontSize: 30,
+                                color: Color.fromARGB(255, 87, 87, 87))),
+                        SizedBox(
+                          height: 10,
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: 350,
-                              height: 80,
-                              child: ElevatedButton(
-                                style: ButtonStyle(
-                                  shape: MaterialStateProperty.all(
-                                    RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 350,
+                                      height: 80,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Color.fromARGB(
+                                                          255, 233, 233, 233)),
+                                              padding:
+                                                  MaterialStateProperty.all(
+                                                      EdgeInsets.all(5))),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/event_reg');
+                                          },
+                                          child: const Text(
+                                              'Регистрация на марафон',
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  color: Colors.black))),
                                     ),
-                                  ),
-                                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                                ),
-                                  onPressed: () {Navigator.pushNamed(context, '/my_sponsor');}, child: const Text('Мой спонсор', style: TextStyle(fontSize: 25, color: Colors.black), textAlign: TextAlign.center)),
-                            ),
-                            SizedBox(
-                              height: 25,
-                            ),
-                            SizedBox(
-                            width: 350,
-                            height: 80,
-                            child: ElevatedButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
-                                padding: MaterialStateProperty.all(EdgeInsets.all(5))
-                              ),
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/check');
-                                  }, child: const Text('Контакты', style: TextStyle(fontSize: 25,color: Colors.black))),
-                          ),
-                          SizedBox(
-                              height: 105,
-                            ),
-                          ]
-                        ),
-                      ] 
-                    )
-                  ]
-                )
-              ),
-            )
-          );
-        }
-      )
-   );
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    SizedBox(
+                                      width: 350,
+                                      height: 80,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Color.fromARGB(
+                                                          255, 233, 233, 233)),
+                                              padding:
+                                                  MaterialStateProperty.all(
+                                                      EdgeInsets.all(5))),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/my_results');
+                                          },
+                                          child: const Text('Мои результаты',
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  color: Colors.black))),
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    SizedBox(
+                                      width: 350,
+                                      height: 80,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                              shape: MaterialStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                ),
+                                              ),
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Color.fromARGB(
+                                                          255, 233, 233, 233)),
+                                              padding:
+                                                  MaterialStateProperty.all(
+                                                      EdgeInsets.all(5))),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/runner_edit');
+                                          },
+                                          child: const Text(
+                                              'Редактирование профиля',
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  color: Colors.black))),
+                                    ),
+                                  ]),
+                              Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      width: 350,
+                                      height: 80,
+                                      child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Color.fromARGB(
+                                                        255, 233, 233, 233)),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.pushNamed(
+                                                context, '/my_sponsor');
+                                          },
+                                          child: const Text('Мой спонсор',
+                                              style: TextStyle(
+                                                  fontSize: 25,
+                                                  color: Colors.black),
+                                              textAlign: TextAlign.center)),
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    SizedBox(
+                                      width: 350,
+                                      height: 80,
+                                      child: ElevatedButton(
+                                        style: ButtonStyle(
+                                            shape: MaterialStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Color.fromARGB(
+                                                        255, 233, 233, 233)),
+                                            padding: MaterialStateProperty.all(
+                                                EdgeInsets.all(5))),
+                                        onPressed: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: Text('Контакты'),
+                                                content: Text(
+                                                    'По любым вопросам обращайтесь по номеру телефона: 8935385935'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: Text('Закрыть'),
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Text('Контакты',
+                                            style: TextStyle(
+                                                fontSize: 25,
+                                                color: Colors.black)),
+                                      ),
+                                    ),
+                                  ]),
+                            ])
+                      ])),
+            ));
+      }));
 }

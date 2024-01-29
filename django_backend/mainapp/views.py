@@ -1,14 +1,18 @@
 import csv
-from rest_framework import generics, status, viewsets, filters
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
+
 from django.db import models
+from django.db.models import F
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status, viewsets
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from . import models as my_models
 from . import serializers as my_serializers
-from rest_framework.request import Request
 
 
 class HelloWorld(APIView):
@@ -18,6 +22,12 @@ class HelloWorld(APIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = my_models.User.objects.all()
     serializer_class = my_serializers.UserSerializer
+    search_fields = ['email', 'first_name', 'last_name']
+    filterset_fields = ['email', 'first_name', 'last_name', 'role']
+
+    def list(self, request, *args, **kwargs):
+        print(request.query_params)
+        return super().list(request, *args, **kwargs)
 
 class GenderViewSet(viewsets.ModelViewSet):
     queryset = my_models.Gender.objects.all()
@@ -87,6 +97,50 @@ class RegistrationEventViewSet(viewsets.ModelViewSet):
         queryset = queryset.order_by('race_time')
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+class RunnersManagementViewSet(viewsets.ModelViewSet):
+    queryset = my_models.RegistrationEvent.objects.all().annotate(
+        first_name=F('registration__runner__user__first_name'),
+        last_name=F('registration__runner__user__last_name'),
+        email=F('registration__runner__user__email'),
+        status_id=F('registration__registration_status__id'),
+        event_type_id=F('event__event_type__id'),
+    )
+    serializer_class = my_serializers.RunnerManagementSerializer
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+
+    def get_queryset(self):
+        queryset = self.queryset
+
+        status_id = self.request.query_params.get('status_id')
+        event_type_id = self.request.query_params.get('event_type_id')
+        if status_id:
+            queryset = queryset.filter(registration__registration_status__id=status_id)
+        if event_type_id:
+            queryset = queryset.filter(event__event_type__id=event_type_id)
+
+        ordering = self.request.query_params.get('ordering')
+        if ordering:
+            queryset = queryset.order_by(ordering)
+
+        return queryset
+    
+    @action(detail=True, methods=['post'])
+    def change_registration_status(self, request, pk=None):
+        print("aboba")
+        runner_management_entry = self.get_object()
+
+        # Check if the 'new_status' is provided in the request data
+        new_status_id = request.data.get('new_status_id')
+        if not new_status_id:
+            return Response({'error': 'The new_status_id parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Perform the logic to change the registration status
+        runner_management_entry.registration.registration_status_id = new_status_id
+        runner_management_entry.registration.save()
+
+        return Response({'message': 'Registration status changed successfully'})
+
 
 class EventViewSet(viewsets.ModelViewSet):
     queryset = my_models.Event.objects.all()
