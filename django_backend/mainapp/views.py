@@ -1,18 +1,18 @@
 import csv
-from django.http import QueryDict
-from rest_framework import generics, status, viewsets, filters
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.parsers import FormParser, MultiPartParser
-from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
+
 from django.db import models
 from django.db.models import F
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters, generics, status, viewsets
+from rest_framework.authtoken.models import Token
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, MultiPartParser
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from . import models as my_models
 from . import serializers as my_serializers
-from rest_framework.request import Request
-from django_filters.rest_framework import DjangoFilterBackend
 
 
 class HelloWorld(APIView):
@@ -124,6 +124,22 @@ class RunnersManagementViewSet(viewsets.ModelViewSet):
             queryset = queryset.order_by(ordering)
 
         return queryset
+    
+    @action(detail=True, methods=['post'])
+    def change_registration_status(self, request, pk=None):
+        print("aboba")
+        runner_management_entry = self.get_object()
+
+        # Check if the 'new_status' is provided in the request data
+        new_status_id = request.data.get('new_status_id')
+        if not new_status_id:
+            return Response({'error': 'The new_status_id parameter is required.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Perform the logic to change the registration status
+        runner_management_entry.registration.registration_status_id = new_status_id
+        runner_management_entry.registration.save()
+
+        return Response({'message': 'Registration status changed successfully'})
 
 
 class EventViewSet(viewsets.ModelViewSet):
