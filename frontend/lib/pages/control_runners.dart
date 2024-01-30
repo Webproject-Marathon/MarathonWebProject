@@ -79,7 +79,7 @@ class _HomePage extends State<HomePage> {
     }
 
     runnersModel.totalRunners = jsonResponse["count"];
-
+    runnersModel.notifyListeners();
   }
 
   @override
