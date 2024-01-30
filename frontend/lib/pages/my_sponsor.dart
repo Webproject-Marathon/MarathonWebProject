@@ -20,7 +20,7 @@ class _MySponsorScreen extends State<MySponsorScreen> {
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenWide = MediaQuery.sizeOf(context).width >= 1000;
+    bool isScreenWide = MediaQuery.of(context).size.width >= 1000;
     return Scaffold(
       appBar: AppBar(
         leadingWidth: 120,

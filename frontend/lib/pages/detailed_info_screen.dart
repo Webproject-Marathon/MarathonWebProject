@@ -180,7 +180,7 @@ class _Content1 extends State<Content1> {
                           ),
                           backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                         ),
-                          onPressed: () {}, 
+                          onPressed: () { Navigator.pushNamed(context, '/blago_13'); },
                           child: const Text('Благотворительные организации', style: TextStyle(fontSize: 25, color: Colors.black), textAlign: TextAlign.center)),
                     ),
                     SizedBox(
@@ -339,7 +339,7 @@ class _Content2 extends State<Content2> {
                                   ),
                                   backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 233, 233, 233)),
                                 ),
-                                  onPressed: () {Navigator.pushNamed(context, '/blago'); }, 
+                                  onPressed: () {Navigator.pushNamed(context, '/blago_13'); }, 
                                   child: const Text('Благотворительные организации', style: TextStyle(fontSize: 25, color: Colors.black), textAlign: TextAlign.center)),
                             ),
                             SizedBox(

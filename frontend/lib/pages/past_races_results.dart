@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
-
 
 class PastRacesResult extends StatefulWidget {
   const PastRacesResult({super.key});
@@ -12,16 +10,16 @@ class PastRacesResult extends StatefulWidget {
 class _PastRacesResult extends State<PastRacesResult> {
   final List<Map> _users = [
     {'id': 'Место', 'time': 'Время', 'name': 'Имя Бегуна', 'country': 'Страна'},
-    {'id': 1, 'time': '2h 27m 14s','name': 'John', 'country': 'BRA'},
-    {'id': 2, 'time': '2h 27m 13s','name': 'Bob', 'country': 'ETH'},
-    {'id': 3, 'time': '2h 37m 14s','name': 'Trump', 'country': 'USA'},
-    {'id': 4, 'time': '2h 28m 14s','name': 'Joe Biden', 'country': 'ETH'},
-    {'id': 5, 'time': '3h 27m 14s','name': 'Superman', 'country': 'ARG'}
+    {'id': 1, 'time': '2h 15m 30s','name': 'Александр Иванов', 'country': 'RUS'},
+    {'id': 2, 'time': '2h 18m 45s','name': 'Emily Johnson', 'country': 'USA'},
+    {'id': 3, 'time': '2h 20m 10s','name': 'Juan Rodriguez', 'country': 'MEX'},
+    {'id': 4, 'time': '2h 22m 05s','name': 'Maria Silva', 'country': 'BRA'},
+    {'id': 5, 'time': '3h 25m 20s','name': 'Ahmed Ali', 'country': 'ETH'}
   ];
 
   @override
   Widget build(BuildContext context) {
-    bool isScreenWide = MediaQuery.sizeOf(context).width >= 1000;
+    bool isScreenWide = MediaQuery.of(context).size.width >= 1000;
 
     return Scaffold(
       appBar: AppBar(
@@ -79,7 +77,7 @@ class _PastRacesResult extends State<PastRacesResult> {
                               child: Row(
                                 mainAxisSize:MainAxisSize.min,
                                 children: [
-                                  const Column(
+                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget> [
@@ -127,7 +125,7 @@ class _PastRacesResult extends State<PastRacesResult> {
                               child: Row(
                                 mainAxisSize:MainAxisSize.min,
                                 children: [
-                                  const Column(
+                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: <Widget> [
@@ -226,7 +224,7 @@ class _PastRacesResult extends State<PastRacesResult> {
                                   style: TextStyle(fontSize: 23.0, color: Color.fromARGB(255, 53, 53, 53)),
                                   children: <TextSpan>[
                                     TextSpan(text: 'Среднее время:  ', style: TextStyle(fontWeight: FontWeight.bold)),
-                                    TextSpan(text: '4h 02m 10s'),
+                                    TextSpan(text: '2h 27m 55s'),
                                   ],
                                 ),
                               ),
@@ -242,7 +240,17 @@ class _PastRacesResult extends State<PastRacesResult> {
             ),
           ),
         ),
-      bottomNavigationBar: const BottomNavigationBarWithTimer(),
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.all(12),
+        height: 50.0,
+        color: Color.fromARGB(255, 87, 87, 87),
+        child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const <Widget>[
+                Text('18 дней, 8 часов и 17 минут до старта марафона!', style: TextStyle(fontSize: 18,color: Colors.white),)
+              ],
+      ),
+    ),
     );
   }
 }
