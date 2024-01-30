@@ -188,6 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                   width: 350,
                   child: TextField(
                     controller: _passwordController,
+                    obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
                       border: OutlineInputBorder(),
