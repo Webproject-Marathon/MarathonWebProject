@@ -191,12 +191,12 @@ class Organization {
 // Пример данных из базы данных (ваша выгрузка из базы данных)
 List<Organization> dataFromDatabase = [
   Organization(
-    logo: 'https://www.pngjoy.com/pngl/450/26790750_bonzi-buddy-png.png',
+    logo: 'django_backend/images/charity_logos/arise-logo.png',
     name: 'Свет в Темноте',
     info: 'Организация, посвященная предоставлению света в жизни тех, кто находится в темноте бедности. Мы поддерживаем образовательные программы и обеспечиваем средства для тех, кто мечтает о лучшем будущем.',
   ),
   Organization(
-    logo: 'https://www.pngjoy.com/pngl/450/26790750_bonzi-buddy-png.png',
+    logo: 'django_backend/images/charity_logos/aves-do-brazil-logo.png',
     name: 'Сердце к Сердцу',
     info: 'Мы стремимся создать дружелюбное и поддерживающее сообщество для тех, кто сталкивается с трудностями в жизни. Наша организация предоставляет эмоциональную поддержку и ресурсы для того, чтобы каждое сердце чувствовало тепло и заботу.',
   ),

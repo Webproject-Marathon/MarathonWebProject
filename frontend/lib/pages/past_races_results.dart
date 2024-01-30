@@ -44,7 +44,7 @@ class _PastRacesResult extends State<PastRacesResult> {
                       padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/info');
                     }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
                   ),
                 ),
@@ -182,9 +182,8 @@ class _PastRacesResult extends State<PastRacesResult> {
                                     backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
                                     padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                                   ),
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, '/home');
-                                  }, child: const Text('Поиск', style: TextStyle(fontSize: 20,color: Colors.black))),
+                                  onPressed: () {},
+                                  child: const Text('Поиск', style: TextStyle(fontSize: 20,color: Colors.black))),
                             )
                           ]
                         ),

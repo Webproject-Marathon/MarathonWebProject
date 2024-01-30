@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 void main() {
   runApp(Blago_13());
 }
@@ -34,18 +35,18 @@ class MyWidget extends StatelessWidget {
   final List<Charity> charities = [
     Charity(
       name: 'Свет в Темноте',
-      logo: 'https://www.pngjoy.com/pngl/450/26790750_bonzi-buddy-png.png',
+      logo: 'assets/charity_logos/arise-logo.png',
       information: 'Организация, посвященная предоставлению света в жизни тех, кто находится в темноте бедности. Мы поддерживаем образовательные программы и обеспечиваем средства для тех, кто мечтает о лучшем будущем.',
     ),
     Charity(
       name: 'Сердце к Сердцу',
-      logo: 'https://www.pngjoy.com/pngl/450/26790750_bonzi-buddy-png.png',
+      logo: 'assets/charity_logos/aves-do-brazil-logo.png',
       information:
           'Мы стремимся создать дружелюбное и поддерживающее сообщество для тех, кто сталкивается с трудностями в жизни. Наша организация предоставляет эмоциональную поддержку и ресурсы для того, чтобы каждое сердце чувствовало тепло и заботу.',
     ),
     Charity(
       name: 'Зеленые Надежды',
-      logo: 'https://www.pngjoy.com/pngl/450/26790750_bonzi-buddy-png.png',
+      logo: 'assets/charity_logos/clara-santos-oliveira-institute-logo.png',
       information:
           'Мы заботимся о нашей планете и будущем. Наша организация фокусируется на устойчивом развитии, посаженных деревьях, и образовании об экологии. Присоединяйтесь к нам в создании зеленого и устойчивого завтра.',
     ),
@@ -75,7 +76,7 @@ class MyWidget extends StatelessWidget {
                       padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      Navigator.pushNamed(context, '/info');
                     },
                     child: const Text('Назад',
                         style: TextStyle(fontSize: 20, color: Colors.black))),
@@ -110,7 +111,7 @@ class MyWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Padding(
-                  padding: EdgeInsets.only(bottom: 10.0),
+                  padding: EdgeInsets.only(top: 10.0, bottom: 10.0),
                   child: Text(
                     'Список благотварительных организаций',
                     style: TextStyle(
@@ -124,12 +125,16 @@ class MyWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text(
-                          'Это - список всех благотворительных учреждений, которые поддерживаются в Marathon Skills 2016. Спасибо за помощь! Вы поддерживаете их, спонсируя бегунов!',
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 87, 87, 87)),
-                          textAlign: TextAlign.center,
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.0),
+                          child: Text( 
+                            'Это - список всех благотворительных учреждений, которые поддерживаются в Marathon Skills 2016. Спасибо за помощь! Вы поддерживаете их, спонсируя бегунов!', 
+                            style: TextStyle( 
+                              fontSize: 20, 
+                              color: Color.fromARGB(255, 87, 87, 87)
+                            ), 
+                            textAlign: TextAlign.center, 
+                          ),
                         ),
                         ListView.builder(
                           shrinkWrap: true,
@@ -139,7 +144,7 @@ class MyWidget extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return ListTile(
                               contentPadding: EdgeInsets.all(10.0),
-                              leading: Container(
+                              leading: SizedBox(
                                 width: 200.0, // задайте нужную ширину
                                 height: 200.0, // задайте нужную высоту
                                 child: Image.network(
@@ -147,22 +152,28 @@ class MyWidget extends StatelessWidget {
                                   fit: BoxFit.contain,
                                 ),
                               ),
-                              title: Text(
-                                charities[index].name,
-                                style: TextStyle(
-                                    fontSize: 25,
-                                    color: Color.fromARGB(255, 87, 87, 87),
-                                    fontWeight: FontWeight.bold),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
+                              title: Padding(
+                                  padding: EdgeInsets.only(bottom: 10.0),
+                                  child: Text( 
+                                  charities[index].name,
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      color: Color.fromARGB(255, 87, 87, 87),
+                                      fontWeight: FontWeight.bold),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                              subtitle: Text(
-                                charities[index].information,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromARGB(255, 87, 87, 87)),
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
+                              subtitle: Padding(
+                                  padding: EdgeInsets.only(right: 40.0),
+                                  child: Text( 
+                                    charities[index].information,
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        color: Color.fromARGB(255, 87, 87, 87)),
+                                    maxLines: 4,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                               ),
                             );
                           },

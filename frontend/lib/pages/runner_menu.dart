@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+import 'package:marathon/components/auth_checker.dart';
+import 'package:marathon/classes/SessionData.dart';
+
+
 
 
 class RunnerMenuScreen extends StatelessWidget {
@@ -8,9 +12,12 @@ class RunnerMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => PageState(),
-      child: const HomePage(),
+    return AuthCheckerWidget(
+      isAllowed: SessionData.isUserRunner(),
+      child: ChangeNotifierProvider(
+        create: (context) => PageState(),
+        child: const HomePage(),
+      ),
     );
   }
 }
