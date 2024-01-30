@@ -45,7 +45,8 @@ void main() => runApp(MaterialApp(
         '/runner_menu': (context) => const RunnerMenuScreen(),
         '/runner_reg': (context) => const RunnerRegistrationHomeScreen(),
         '/runner_edit': (context) => const RunnerProfileEditHomeScreen(),
-        '/runner_coord_edit': (context) => const RunnerProfileCoordEditHomeScreen(),
+        '/runner_coord_edit': (context) =>
+            const RunnerProfileCoordEditHomeScreen(),
         '/coordinator_menu': (context) => const CoordinatorMenuScreen(),
         '/admin_menu': (context) => const AdminMenuScreen(),
         '/manage_runner': (context) => const ManageRunnerHomeScreen(),
@@ -71,7 +72,7 @@ void main() => runApp(MaterialApp(
         '/manage_volonteer': (context) => const ManageVolonteer(),
         '/control_charity': (context) => const ControlCharity(),
         '/blago': (context) => const Blago(),
-        '/blago_13': (context) => const Blago_13(),
+        '/blago_org13': (context) => const Blago_13(),
         '/login': (context) => const Authorization(),
       },
     ));

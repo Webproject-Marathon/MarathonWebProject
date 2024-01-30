@@ -122,7 +122,7 @@ class _BMRScreenState extends State<BMRScreen> {
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/check');
+              Navigator.pushNamed(context, '/info');
             },
             style: ButtonStyle(
               shape: MaterialStateProperty.all(

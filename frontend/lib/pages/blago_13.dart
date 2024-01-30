@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 void main() {
   runApp(Blago_13());
 }
@@ -36,7 +35,8 @@ class MyWidget extends StatelessWidget {
     Charity(
       name: 'Свет в Темноте',
       logo: 'assets/charity_logos/arise-logo.png',
-      information: 'Организация, посвященная предоставлению света в жизни тех, кто находится в темноте бедности. Мы поддерживаем образовательные программы и обеспечиваем средства для тех, кто мечтает о лучшем будущем.',
+      information:
+          'Организация, посвященная предоставлению света в жизни тех, кто находится в темноте бедности. Мы поддерживаем образовательные программы и обеспечиваем средства для тех, кто мечтает о лучшем будущем.',
     ),
     Charity(
       name: 'Сердце к Сердцу',
@@ -127,13 +127,12 @@ class MyWidget extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 40.0),
-                          child: Text( 
-                            'Это - список всех благотворительных учреждений, которые поддерживаются в Marathon Skills 2016. Спасибо за помощь! Вы поддерживаете их, спонсируя бегунов!', 
-                            style: TextStyle( 
-                              fontSize: 20, 
-                              color: Color.fromARGB(255, 87, 87, 87)
-                            ), 
-                            textAlign: TextAlign.center, 
+                          child: Text(
+                            'Это - список всех благотворительных учреждений, которые поддерживаются в Marathon Skills 2016. Спасибо за помощь! Вы поддерживаете их, спонсируя бегунов!',
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 87, 87, 87)),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         ListView.builder(
@@ -153,8 +152,8 @@ class MyWidget extends StatelessWidget {
                                 ),
                               ),
                               title: Padding(
-                                  padding: EdgeInsets.only(bottom: 10.0),
-                                  child: Text( 
+                                padding: EdgeInsets.only(bottom: 10.0),
+                                child: Text(
                                   charities[index].name,
                                   style: TextStyle(
                                       fontSize: 25,
@@ -165,15 +164,15 @@ class MyWidget extends StatelessWidget {
                                 ),
                               ),
                               subtitle: Padding(
-                                  padding: EdgeInsets.only(right: 40.0),
-                                  child: Text( 
-                                    charities[index].information,
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        color: Color.fromARGB(255, 87, 87, 87)),
-                                    maxLines: 4,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
+                                padding: EdgeInsets.only(right: 40.0),
+                                child: Text(
+                                  charities[index].information,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 87, 87, 87)),
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
                             );
                           },

@@ -32,7 +32,7 @@ class _HomePage extends State<HomePage> {
             padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/check');
+                Navigator.pushNamed(context, '/home');
               },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(

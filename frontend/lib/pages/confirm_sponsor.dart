@@ -120,7 +120,7 @@ class _Content extends State<Content> {
                               fontSize: 20,
                               color: Color.fromARGB(255, 87, 87, 87)),
                           textAlign: TextAlign.center),
-                      Text('Иван Прудов(204) из Russia',
+                      Text('Павел Коваль(305) из Russia',
                           style: TextStyle(
                               fontSize: 40,
                               color: Color.fromARGB(255, 87, 87, 87)),
@@ -128,7 +128,7 @@ class _Content extends State<Content> {
                       SizedBox(
                         height: 10,
                       ),
-                      Text('\$50',
+                      Text('\$150',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 50,
@@ -152,7 +152,7 @@ class _Content extends State<Content> {
                                   MaterialStateProperty.all(EdgeInsets.all(5)),
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/runner_menu');
+                              Navigator.pushNamed(context, '/home');
                             },
                             child: const Text('Назад',
                                 style: TextStyle(
