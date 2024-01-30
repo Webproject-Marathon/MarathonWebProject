@@ -160,7 +160,7 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
       var responseData = await response.stream.bytesToString();
       var jsonResponse = json.decode(responseData);
       List<Map<dynamic, dynamic>> list = [];
-      for (var e in jsonResponse) { list.add(e); }
+      for (var e in jsonResponse['results']) { list.add(e); }
       PageState.genderList = list;
     } else {
       print('гендеров не существует! ${response.reasonPhrase}');
@@ -174,7 +174,7 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
       var responseData = await response.stream.bytesToString();
       var jsonResponse = json.decode(responseData);
       List<Map<dynamic, dynamic>> list = [];
-      for (var e in jsonResponse) { list.add(e); }
+      for (var e in jsonResponse['results']) { list.add(e); }
       PageState.countryList = list;
     } else {
       print('стран не существует! ${response.reasonPhrase}');
