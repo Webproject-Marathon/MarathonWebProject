@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 import 'package:provider/provider.dart';
+import 'package:marathon/classes/SessionData.dart';
 
 class Authorization extends StatelessWidget {
   const Authorization({super.key});
@@ -60,6 +61,10 @@ class _LoginPageState extends State<LoginPage> {
           var userData = await userResponse.stream.bytesToString();
           var jsonResponse = json.decode(userData);
           String role = jsonResponse['role'];
+
+          SessionData.setUserRole(role);
+          SessionData.setUserToken(token);
+
           if (role == 'A') {
             Navigator.pushNamed(context, '/admin_menu');
           } else if (role == 'R') {
