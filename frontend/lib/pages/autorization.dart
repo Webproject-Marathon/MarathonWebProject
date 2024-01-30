@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/classes/SessionData.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Authorization extends StatelessWidget {
   const Authorization({super.key});
@@ -51,6 +52,10 @@ class _LoginPageState extends State<LoginPage> {
 
         print(
             'Токен: $token, Идентификатор пользователя: $userId, Email: $email');
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+        await prefs.setString('auth_id', "$userId");
 
         // Теперь делаем запрос для получения полной информации о пользователе
         var userRequest = http.Request(

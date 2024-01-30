@@ -1,8 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:marathon/classes/text_presets.dart';
+import 'dart:convert';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EventRegistrationHomeScreen extends StatelessWidget {
   const EventRegistrationHomeScreen({super.key});
@@ -17,9 +20,13 @@ class EventRegistrationHomeScreen extends StatelessWidget {
 }
 
 class PageState extends ChangeNotifier {
+  static List<Map<dynamic, dynamic>> charitiesList = [];
+
+  var flag = false;
   var curDonation = 0;
   var curPayment = 0;
-  var curFond = "";
+  var curCharityUrl = "";
+  var curCharityInfo = {};
 
   bool isFullMarathon = false;
   bool isHalfMarathon = false;
@@ -29,7 +36,12 @@ class PageState extends ChangeNotifier {
   bool isKitB = false;
   bool isKitC = false;
 
-  void updateIsFullMarathon(value) {
+  void updateFlag(){
+    flag = true;
+    notifyListeners();
+  }
+
+  void updateIsFullMarathon(value){
     isFullMarathon = value;
     curPayment += isFullMarathon ? 145 : -145;
     notifyListeners();
@@ -47,7 +59,17 @@ class PageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateIsKitA() {
+  String getKitUrl() {
+    if (isKitA) {
+      return "http://127.0.0.1:8000/race-kit-options/1/";
+    } else if (isKitB) {
+      return "http://127.0.0.1:8000/race-kit-options/2/";
+    } else {
+      return "http://127.0.0.1:8000/race-kit-options/3/";
+    }
+  }
+
+  void updateIsKitA(){
     curPayment -= isKitB ? 20 : 0;
     curPayment -= isKitC ? 45 : 0;
 
@@ -82,14 +104,28 @@ class PageState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateDropdownMenuValue(value) {
-    curFond = value;
+  void _getCharityInfo(url) async {
+    var request = http.MultipartRequest('GET', Uri.parse('$url'));
+    var response = await http.Client().send(request);
+    if (response.statusCode == 200){
+      var responseData = await response.stream.bytesToString();
+      var jsonResponse = json.decode(responseData);
+      curCharityInfo = jsonResponse;
+      print (curCharityInfo['logo']);
+    } else {
+      print('ошибка! ${response.statusCode}: ${response.reasonPhrase}');
+    }
+  }
+  void updateDropdownMenuValue(value){
+    curCharityUrl = value;
+    _getCharityInfo(value);
     notifyListeners();
   }
 
   void resetValues() {
     curDonation = 0;
-    curFond = "";
+    curCharityUrl = "";
+    curCharityInfo = {};
 
     isFullMarathon = false;
     isHalfMarathon = false;
@@ -104,7 +140,7 @@ class PageState extends ChangeNotifier {
   }
 
   bool validateDropdownMenus() {
-    if (curFond == "" || (isFullMarathon || isHalfMarathon || isShortRange)) {
+    if (curCharityUrl == "" || !(isFullMarathon || isHalfMarathon || isShortRange)){
       return false;
     }
     return true;
@@ -120,6 +156,27 @@ class EventRegistrationScreen extends StatefulWidget {
 }
 
 class EventRegistrationScreenState extends State<EventRegistrationScreen> {
+
+  void _getOrganisations() async {
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/charities/'));
+    var response = await http.Client().send(request);
+    if (response.statusCode == 200){
+      var responseData = await response.stream.bytesToString();
+      var jsonResponse = json.decode(responseData);
+      List<Map<dynamic, dynamic>> list = [];
+      for (var e in jsonResponse['results']) { list.add(e); }
+      PageState.charitiesList = list;
+    } else {
+      print('организаций не существует! ${response.reasonPhrase}');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getOrganisations();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isScreenWide = MediaQuery.sizeOf(context).width >= 800;
@@ -203,11 +260,51 @@ class RegistrationFormsState extends State<RegistrationForms> {
   final _formKey = GlobalKey<FormState>();
   final _donationController = TextEditingController();
 
-  static final fundList = [
-    'Фонд кошек',
-    'Фонд собак',
-    'Фонд Андрея Андреевича Сущенко'
-  ]; //заменить на данные бд
+  _getRunnerUrl() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? id = prefs.getString('auth_id');
+
+    var request = http.MultipartRequest(
+        'GET', Uri.parse('http://127.0.0.1:8000/user-to-runner/$id'));
+    try {
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        String responseBody = await response.stream.bytesToString();
+        var jsonResponse = json.decode(responseBody);
+        return jsonResponse['pk'];
+      } else {
+        print("бан от паши. ${response.statusCode}: ${response.reasonPhrase}");
+      }
+    } catch (e) {
+      print('ошибка!! $e');
+    }
+  }
+
+  void _register(PageState pageState) async {
+    int runnerId = await _getRunnerUrl();
+    var usersRequest = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:8000/registrations/'));
+    usersRequest.fields.addAll({
+      'date_time': "${DateTime.now()}",
+      'cost': "${pageState.curPayment}",
+      'sponsorship_target': "${pageState.curDonation}",
+      'runner': "http://127.0.0.1:8000/runners/$runnerId/",
+      'race_kit_option': pageState.getKitUrl(),
+      'registration_status': "http://127.0.0.1:8000/registration-statuses/1/",
+      'charity': pageState.curCharityUrl
+    });
+
+    try {
+      var usersResponse = await usersRequest.send();
+      if (usersResponse.statusCode == 201) {
+        pageState.flag = true;
+      } else {
+        print("бан от паши. ${usersResponse.statusCode}: ${usersResponse.reasonPhrase}");
+      }
+    } catch (e) {
+      print('ошибка!! $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -230,74 +327,65 @@ class RegistrationFormsState extends State<RegistrationForms> {
                       const SizedBox(
                           width: 320,
                           child: MarathonTypeList()), //выбор типа марафона
-                      SizedBox(height: isScreenWide ? 10 : 25),
-                      const Subheader(text: 'Детали спонсорства'),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: IntrinsicHeight(
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: <Widget>[
-                                  DefaultText(text: "Взнос:"),
-                                  DefaultText(text: "Сумма взноса:"),
-                                ],
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  RegDropdownMenu(
-                                    list: fundList,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  SizedBox(
-                                    width: 180,
-                                    child: TextFormField(
-                                      controller: _donationController,
-                                      validator: (value) {
-                                        if (value == null ||
-                                            value.isEmpty ||
-                                            double.tryParse(value) == null) {
-                                          return 'Неверный ввод';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: const InputDecoration(
-                                          hintText: "\$413",
-                                          hintStyle: TextStyle(
-                                              fontStyle: FontStyle.italic),
-                                          isDense: true,
-                                          contentPadding: EdgeInsets.symmetric(
-                                              vertical: 8.0, horizontal: 4.0),
-                                          border: OutlineInputBorder(),
-                                          enabledBorder: OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                width: 1.0,
-                                                color: Color.fromRGBO(
-                                                    150, 150, 150, 1)),
-                                          )),
-                                      style: const TextStyle(fontSize: 16),
+                        SizedBox(height: isScreenWide ? 10 : 25),
+                        const Subheader(text: 'Детали спонсорства'),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: IntrinsicHeight (
+                            child: Row(
+                              mainAxisSize:MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Column(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                      children: <Widget> [
+                                        DefaultText(text: "Взнос:"),
+                                        DefaultText(text: "Сумма взноса:"),
+                                      ],
+                                ),
+                                const SizedBox(width: 10,),
+                                Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    RegDropdownMenu(list: PageState.charitiesList,),
+                                    const SizedBox(height: 5),
+                                    SizedBox(
+                                      width: 180,
+                                      child: TextFormField(
+                                        controller: _donationController,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty || double.tryParse(value) == null) {
+                                            return 'Неверный ввод';
+                                          }
+                                          return null;
+                                          },
+                                        decoration: const InputDecoration(
+                                            hintText: "\$413",
+                                            hintStyle: TextStyle(fontStyle: FontStyle.italic),
+                                            isDense: true,
+                                            contentPadding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                                            border: OutlineInputBorder(),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderSide: BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
+                                            )
+                                        ),
+                                        style: const TextStyle(fontSize: 16),
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              const Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  SponsorInfo(),
-                                  SizedBox(height: 32),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    pageState.curCharityUrl != ""  ?
+                                      const SponsorInfo() : const SizedBox(width: 40, height: 40),
+                                    const SizedBox(height: 32),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ), //детали спонсорства
@@ -341,11 +429,12 @@ class RegistrationFormsState extends State<RegistrationForms> {
                               color: Color.fromRGBO(150, 150, 150, 1)),
                         ),
                         onPressed: () {
-                          if (_formKey.currentState!.validate() &&
-                              pageState.validateDropdownMenus()) {
-                            Navigator.pushNamed(context, '/event_reg');
-                            //магия какая-то
-                          }
+                          if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
+                            print("hi");
+                            _register(pageState);
+                            print("hey!");
+                            Navigator.pushNamed(context, '/reg_confirm');
+                          } else {print("как-то невалидно");}
                         },
                         child: const DefaultText(text: 'Регистрация'),
                       ), //кнопка регистрации
@@ -376,8 +465,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
 }
 
 class RegDropdownMenu extends StatelessWidget {
-  static const defaultList = [''];
-  final List<String> list;
+  static const List<Map<dynamic, dynamic>> defaultList = [];
+  final List<Map<dynamic, dynamic>> list;
 
   const RegDropdownMenu({
     super.key,
@@ -411,11 +500,10 @@ class RegDropdownMenu extends StatelessWidget {
       onSelected: (String? value) {
         pageState.updateDropdownMenuValue(value);
       },
-      dropdownMenuEntries:
-          curList.map<DropdownMenuEntry<String>>((String value) {
+      dropdownMenuEntries: curList.map<DropdownMenuEntry<String>>((Map<dynamic, dynamic> map) {
         return DropdownMenuEntry<String>(
-          value: value,
-          label: value,
+          value: map['url'],
+          label: map['name'],
           style: const ButtonStyle(
               textStyle: MaterialStatePropertyAll(TextStyle(fontSize: 16))),
         );
@@ -558,61 +646,39 @@ class SponsorInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var pageState = context.watch<PageState>();
+
     return IconButton(
       onPressed: () => showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text(
-            'Наименование спонсора',
-            textAlign: TextAlign.center,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Text('${pageState.curCharityInfo['name']}',
+              style: const TextStyle(fontSize: 40),
+              textAlign: TextAlign.center,),
           ),
           content: Container(
-              width: double.maxFinite,
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const ImageIcon(),
-                      const SizedBox(height: 16.0),
-                      RichText(
-                        text: const TextSpan(
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            color: Colors.black,
-                          ),
-                          children: <TextSpan>[
-                            TextSpan(
-                                text:
-                                    'Согласно большому числу научных исследований, основные причины благотворительности состоят в том, что люди:'),
-                            TextSpan(
-                              text:
-                                  ' - по природе своей альтруистичны, ими движет желание помочь другим;',
-                            ),
-                            TextSpan(
-                                text:
-                                    ' - чувствуют себя лучше, когда жертвуют деньги. Экономисты называют это «теплотой альтруизма»[4].'),
-                            TextSpan(
-                                text:
-                                    ' К побудительным причинам благотворительности относится осознание её участниками целостности человеческого общества, более общее — всего живого на Земле, сопричастности и соответственности за мир, в котором мы живём.'),
-                            TextSpan(
-                                text:
-                                    ' Осознание это открывает общественно значимые задачи разного уровня иерархии, вложение сил и средств в решение которых обещают обществу в целом (или той или иной его подсистеме — от семьи, рода, предприятия, микрорайона до города, страны и так далее) заметно большую отдачу, чем в личное самосовершенствование (от духовного, физического, профессионального до финансового), но по разным причинам не решаются здесь и сейчас при существующих обстоятельствах. Среди этих причин зачастую не столько нехватка сил и средств, сколько затянутость согласования соответствующих вопросов на верхах, нежелания иных чиновников брать на себя ответственность в обстоятельствах, требующих определённой грамотности и смелости, научные амбиции и споры разных учёных и научных школ, крайняя неторопливость и недостаточное качество законотворческой деятельности, а порой и просто недостаток сведений о тех или иных обстоятельствах или происшествиях, при которых целесообразно стороннее вмешательство.'),
-                            TextSpan(
-                                text:
-                                    ' Кроме указанных причин благотворительные подходы целесообразны для выполнения многих разовых, малопредсказуемых или достаточно редко производимых общественно значимых работ, например, весенних субботников, держать для быстрого выполнения которых целый год дополнительный штат уборщиков явно избыточно и накладно.'),
-                            TextSpan(
-                                text:
-                                    ' Другим широко известным примером является пресечение мелкого хулиганства, для чего создаются, в частности, ДНД и их разновидности от добровольных молодёжных дружин до соседского дозора: держать штат профессиональных полицейских для этих целей нецелесообразно с самых разных точек зрения (от наличия возможности навести порядок без привлечения особых средств и полномочий до избыточности финансовой нагрузки и нежелания жить в полицейском государстве).'),
-                            TextSpan(
-                                text:
-                                    ' Таким образом благотворительность в исходном смысле этого слова преследует цель более быстрого, гибкого и менее накладного (с точки зрения выбранного горизонта планирования) укрепления той общественной системы, в пределах которой она осуществляется.'),
-                          ],
-                        ),
+            width: double.maxFinite,
+            child: Center(
+              child: SingleChildScrollView (
+                child: Column(
+                  children: [
+                    ImageIcon(url: pageState.curCharityInfo['logo']),
+                    const SizedBox(height: 16.0),
+                    RichText(
+                      text: TextSpan(
+                        style: const TextStyle(fontSize: 16.0, color: Colors.black,),
+                        children: <TextSpan>[
+                          TextSpan(text: '${pageState.curCharityInfo['description']}'),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              )),
+              ),
+            )
+          ),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'OK'),
@@ -627,46 +693,36 @@ class SponsorInfo extends StatelessWidget {
   }
 }
 
-class ImageIcon extends StatefulWidget {
+class ImageIcon extends StatelessWidget {
+  static const String defaultImageUrl = "";
+  final String url;
+
   const ImageIcon({
     super.key,
-    this.logoImage,
+    this.url = defaultImageUrl,
   });
 
-  final File? logoImage;
-
-  @override
-  State<ImageIcon> createState() => _ImageIconState();
-}
-
-class _ImageIconState extends State<ImageIcon> {
   @override
   Widget build(BuildContext context) {
+    final imageUrl = url;
+
     return Column(
-      children: [
-        widget.logoImage != null
-            ? Image.file(
-                widget.logoImage!,
-                height: 100,
-              )
-            : Container(
-                height: 160,
-                width: 130,
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(204, 204, 204, 1),
-                  border: Border.all(
-                    width: 1,
-                    color: const Color.fromRGBO(150, 150, 150, 1),
-                  ),
-                  borderRadius:
-                      const BorderRadius.all(Radius.elliptical(90, 100)),
-                ),
-                child: const Center(
-                  child:
-                      Text('Логотип организации', textAlign: TextAlign.center),
-                ),
-              ),
-      ],
+        children: [
+          imageUrl != ""
+          ? Image.network(imageUrl, height: 100,)
+          : Container(
+            height: 160,
+            width: 130,
+            decoration: BoxDecoration(
+                color: const Color.fromRGBO(204, 204, 204, 1),
+                border: Border.all(width: 1, color: const Color.fromRGBO(150, 150, 150, 1),),
+                borderRadius: const BorderRadius.all(Radius.elliptical(90, 100)),
+            ),
+            child: const Center(
+              child: Text('Логотип организации', textAlign: TextAlign.center),
+            ),
+          ),
+        ],
     );
   }
 }

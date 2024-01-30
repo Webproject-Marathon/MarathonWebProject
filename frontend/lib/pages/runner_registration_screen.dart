@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:string_validator/string_validator.dart';
 import 'package:marathon/classes/text_presets.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
 class RunnerRegistrationHomeScreen extends StatelessWidget {
@@ -19,6 +20,7 @@ class RunnerRegistrationHomeScreen extends StatelessWidget {
 }
 
 class PageState extends ChangeNotifier {
+  var flag = false;
   var pfpPath = "";
   var curGender = "";
   var curCountry = "";
@@ -26,7 +28,21 @@ class PageState extends ChangeNotifier {
   static List<Map<dynamic, dynamic>> genderList = [];
   static List<Map<dynamic, dynamic>> countryList = [];
 
-  void updatePfp(value) {
+  void setFlag(){
+    flag = true;
+    notifyListeners();
+  }
+
+  void updateGenderList(value){
+    genderList = value;
+    notifyListeners();
+  }
+  void updateCountryList(value){
+    countryList = value;
+    notifyListeners();
+  }
+
+  void updatePfp(value){
     pfpPath = value;
     notifyListeners();
   }
@@ -85,8 +101,8 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
   @override
   void initState() {
     super.initState();
-    _getGenders();
-    _getCountries();
+    getGenders();
+    getCountries();
   }
 
   @override
@@ -157,9 +173,9 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
     );
   }
 
-  _getGenders() async {
-    var request =
-        http.MultipartRequest('GET', Uri.parse('http://10.23.6.126/genders/'));
+  getGenders() async {
+    //var pageState = context.watch<PageState>();
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/genders/'));
     var response = await http.Client().send(request);
     if (response.statusCode == 200) {
       var responseData = await response.stream.bytesToString();
@@ -169,14 +185,15 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
         list.add(e);
       }
       PageState.genderList = list;
+      //PageState.updateGenderList(list);
     } else {
       print('гендеров не существует! ${response.reasonPhrase}');
     }
   }
 
-  void _getCountries() async {
-    var request = http.MultipartRequest(
-        'GET', Uri.parse('http://10.23.6.126/countries/'));
+  void getCountries() async {
+    //var pageState = context.watch<PageState>();
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/countries/'));
     var response = await http.Client().send(request);
     if (response.statusCode == 200) {
       var responseData = await response.stream.bytesToString();
@@ -186,6 +203,7 @@ class RunnerRegistrationScreenState extends State<RunnerRegistrationScreen> {
         list.add(e);
       }
       PageState.countryList = list;
+      //pageState.updateCountryList(list);
     } else {
       print('стран не существует! ${response.reasonPhrase}');
     }
@@ -209,9 +227,10 @@ class RegistrationFormsState extends State<RegistrationForms> {
   final _surnameController = TextEditingController();
   final _birthController = TextEditingController();
 
-  void _register(PageState pageState) async {
-    var usersRequest =
-        http.MultipartRequest('POST', Uri.parse('http://10.23.6.126/users/'));
+
+  _register(PageState pageState) async {
+    var usersRequest = http.MultipartRequest(
+        'POST', Uri.parse('http://127.0.0.1:8000/users/'));
     usersRequest.fields.addAll({
       'email': _emailController.text,
       'first_name': _nameController.text,
@@ -223,8 +242,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
     try {
       var usersResponse = await usersRequest.send();
       if (usersResponse.statusCode == 201) {
-        String responseBody = await usersResponse.stream.bytesToString();
-        var jsonResponse = json.decode(responseBody);
+        String usersResponseBody = await usersResponse.stream.bytesToString();
+        var jsonResponse = json.decode(usersResponseBody);
         String userUrl = jsonResponse['url'];
 
         var runnersRequest = http.MultipartRequest(
@@ -238,8 +257,27 @@ class RegistrationFormsState extends State<RegistrationForms> {
 
         var runnerResponse = await runnersRequest.send();
         if (runnerResponse.statusCode != 201) {
-          print(
-              "и снова бан. ${runnerResponse.statusCode}: ${runnerResponse.reasonPhrase} ");
+          print("и снова бан. ${runnerResponse.statusCode}: ${runnerResponse.reasonPhrase} ");
+        } else {
+
+          var loginRequest = http.MultipartRequest(
+              'POST', Uri.parse('http://localhost:8000/api-token-auth/'));
+          loginRequest.fields.addAll({
+            'email': _emailController.text,
+            'password': _pwController.text,
+          });
+          http.StreamedResponse loginResponse = await loginRequest.send();
+          if (loginResponse.statusCode == 200) {
+            String loginResponseBody = await loginResponse.stream.bytesToString();
+            var jsonResponse = json.decode(loginResponseBody);
+            String token = jsonResponse['token'];
+            int id = jsonResponse['user_id'];
+
+            final SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setString('token', token);
+            await prefs.setString('auth_id', "$id");
+            pageState.setFlag();
+          }
         }
       } else {
         print(
@@ -546,46 +584,43 @@ class RegistrationFormsState extends State<RegistrationForms> {
               ],
             ),
             const SizedBox(height: 15),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
-                  side: const BorderSide(
-                      width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
-                ),
-                onPressed: () {
-                  if (_formKey.currentState!.validate() &&
-                      pageState.validateDropdownMenus()) {
-                    _register(pageState);
-                    //Navigator.pushNamed(context, '/event_reg');
-                    //магия какая-то
-                  }
-                },
-                child: const DefaultText(text: 'Регистрация'),
-              ),
-              const SizedBox(width: 10),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
-                  side: const BorderSide(
-                      width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
-                ),
-                onPressed: () {
-                  _formKey.currentState!.reset();
-                  _emailController.text = "";
-                  _pwController.text = "";
-                  _pwRepeatController.text = "";
-                  _nameController.text = "";
-                  _surnameController.text = "";
-                  _birthController.text = "";
-                  pageState.resetPfp();
-                  pageState.resetDropdownMenus();
-                },
-                child: const DefaultText(
-                  text: 'Отмена',
-                ),
-              ),
-            ]),
+            Row(
+                mainAxisSize:MainAxisSize.min,
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
+                      side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
+                        _register(pageState);
+                        Navigator.pushNamed(context, '/event_reg');
+                      }
+                    },
+                    child: const DefaultText (text: 'Регистрация'),
+                  ),
+                  const SizedBox(width: 10),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(242, 242, 242, 1),
+                      side: const BorderSide(width: 1.0, color: Color.fromRGBO(150, 150, 150, 1)),
+                    ),
+                    onPressed: () {
+                      _formKey.currentState!.reset();
+                      _emailController.text = "";
+                      _pwController.text = "";
+                      _pwRepeatController.text = "";
+                      _nameController.text = "";
+                      _surnameController.text = "";
+                      _birthController.text = "";
+                      pageState.resetPfp();
+                      pageState.resetDropdownMenus();
+                    },
+                    child: const DefaultText (text: 'Отмена',),
+                  ),
+                ]
+            ),
           ],
         ),
       ),

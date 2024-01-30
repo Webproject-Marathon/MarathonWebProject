@@ -1,5 +1,4 @@
 import csv
-
 from django.db import models
 from django.db.models import F
 from django_filters.rest_framework import DjangoFilterBackend
@@ -127,7 +126,7 @@ class RunnersManagementViewSet(viewsets.ModelViewSet):
     
     @action(detail=True, methods=['post'])
     def change_registration_status(self, request, pk=None):
-        print("aboba")
+        print("abooba")
         runner_management_entry = self.get_object()
 
         # Check if the 'new_status' is provided in the request data
@@ -227,5 +226,21 @@ class CustomAuthToken(APIView):
             'token': token.key,
             'user_id': user.pk,
             'email': user.email
+        })
+    
+class UserToRunner(APIView):
+    authentication_classes = [] 
+    permission_classes = []
+    serializer_class = my_serializers.RunnerSerializer
+
+    def get(self, request, id, *args, **kwargs):
+        user = my_models.User.objects.get(pk = id)
+        runner = my_models.Runner.objects.get(user = user)
+
+        return Response({
+            'pk': runner.pk,
+            'gender': runner.gender.pk,
+            'date_of_birth': runner.date_of_birth,
+            'country': runner.country.pk
         })
     
