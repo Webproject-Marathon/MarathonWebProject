@@ -42,7 +42,7 @@ class VolunteerSerializer(serializers.HyperlinkedModelSerializer):
 class CharitySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = my_models.Charity
-        fields = ['name', 'description', 'logo']
+        fields = ['url', 'name', 'description', 'logo']
 
 class SponsorshipSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

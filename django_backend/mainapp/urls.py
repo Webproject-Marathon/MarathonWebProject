@@ -33,6 +33,7 @@ urlpatterns = [
     path('hello-world', views.HelloWorld.as_view()),
     path('upload-volunteers', views.VolunteerUploadView.as_view()),
     path('sponsorships/by-registration/<int:registration_id>/', views.SponsorshipsByRegistration.as_view()),
+    path('user-to-runner/<int:id>', views.UserToRunner.as_view()),
 ]
 
 if settings.DEBUG:
