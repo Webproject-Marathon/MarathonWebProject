@@ -12,10 +12,10 @@ class MySponsorScreen extends StatefulWidget {
 class _MySponsorScreen extends State<MySponsorScreen> {
   final List<Map> _sponsors = [
     {'id': 0, 'name': 'Спонсор', 'sum': 'Взнос'},
-    {'id': 1, 'name': 'Фонд кошек', 'sum': '\$50'},
-    {'id': 2, 'name': 'Фонд собак', 'sum': '\$120'},
-    {'id': 3, 'name': 'Фонд линейной алгебры', 'sum': '\$30'},
-    {'id': 4, 'name': 'Фонд Андрея Андреевича Сущенко', 'sum': '\$300'},
+    {'id': 1, 'name': 'Фонд "Свет в Темноте"', 'sum': '\$50'},
+    {'id': 2, 'name': 'Фонд "Сердце к Сердцу"', 'sum': '\$120'},
+    {'id': 3, 'name': 'Фонд "Зеленые Надежды"', 'sum': '\$30'},
+    {'id': 4, 'name': 'Фонд "Вместе Вперёд"', 'sum': '\$300'},
   ];
 
   @override
@@ -67,7 +67,7 @@ class _MySponsorScreen extends State<MySponsorScreen> {
                   fixedSize: MaterialStateProperty.all(const Size.fromWidth(120))
               ),
               child: const Text(
-                  'Log out',
+                  'Logout',
                   style: TextStyle(color: Colors.black, fontSize: 18)
               ),
             ),
@@ -79,22 +79,22 @@ class _MySponsorScreen extends State<MySponsorScreen> {
         child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 50.0, horizontal: 20),
+              padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
               child: FittedBox(
                 fit: BoxFit.contain,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Padding(
-                      padding: EdgeInsets.only(bottom: 40, top: 10),
-                      child: Text('Мои спонсоры', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 92, 92, 92)),),
+                      padding: EdgeInsets.only(bottom: 20, top: 10),
+                      child: Text('Мои спонсоры', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87)),),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: const Padding(
-                        padding: EdgeInsets.only(bottom: 40),
+                        padding: EdgeInsets.only(bottom: 20),
                         child: Text('Здесь показаны все ваши спонсоры в Marathon Skills 2023',
-                          style: TextStyle(fontSize: 23,color: Color.fromARGB(255, 59, 59, 59)),
+                          style: TextStyle(fontSize: 23,color: Color.fromARGB(255, 87, 87, 87)),
                           textAlign: TextAlign.center,),
                       ),
                     ),
@@ -105,55 +105,40 @@ class _MySponsorScreen extends State<MySponsorScreen> {
                         Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          const Text('Наименование', style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 124, 124, 124))),
-                          const Padding(
-                            padding: EdgeInsets.only(bottom: 10),
-                            child:
-                              Text('благотворительной организации', style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 124, 124, 124))),
-                          ),
-                          Container(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Color.fromARGB(255, 206, 157, 59), width: 1.5),
-                              borderRadius: BorderRadius.all(Radius.circular(100))),
-                              width: 170,
-                              height: 170,
-                            child:ElevatedButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100))
-                                ),
-                                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 255, 200, 91)),
-                                padding: MaterialStateProperty.all(EdgeInsets.all(10))
-                              ),
-                                onPressed: () {Null;},
-                                child: const Text('Logo', style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 145, 108, 35)))
+                          const Text('"Зеленые Надежды"', style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 87, 87, 87))),
+                          SizedBox(height: 20,),
+                          SizedBox(
+                            width: 200, 
+                            height: 160, 
+                            child: Image.asset(
+                              'charity_logos/arise-logo.png', // замените на путь к вашему изображению
+                              fit: BoxFit.fill, 
                             ),
                           ),
                           const Padding(
                             padding: EdgeInsets.only(top: 30, right: 30, left: 55),
-                            child: SizedBox(width: 450, height: 100, child: Text('Это было бы длинным описанием благотворительности. Это могло пойти для нескольких параграфов.', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.left))
+                            child: SizedBox(width: 450, height: 220, child: Text('Фонд "Сердце к Сердцу" — это инициатива, сосредоточенная на оказании заботы и поддержки тем, кто нуждается. В рамках фонда создается теплое и дружное сообщество, направленное на поддержку гуманитарных инициатив и оказание помощи людям, проходящим через трудности.', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.left))
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(right: 30, left: 55),
-                            child: SizedBox(width: 450, height: 50, child: Text('Это - больше описания здесь, и это - еще часть описания также.', style: TextStyle(fontSize: 22,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.left))
-                          )
                         ]
                         ),
                         const SizedBox(width: 20, height: 50),
                         Column(
                           children: <Widget>[
                             SponsorsTable(sponsors: _sponsors),
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Color.fromARGB(255, 109, 109, 109), width: 1.5)),
-                                width: 350,
-                                height: 1,
+                             Padding(
+                              padding: EdgeInsets.only(right: 80),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Color.fromARGB(255, 87, 87, 87), width: 1.5)),
+                                  width: 420,
+                                  height: 1,
+                              ),
                             ),
                             const Padding(
                                 padding: EdgeInsets.only(top: 20, left: 210),
                                 child: Text('Всего: \$680', style: TextStyle(fontSize: 25,color: Color.fromARGB(255, 87, 87, 87)))
                             ),
+                            SizedBox(height: 190,)
                           ]
                         ),
                       ]
@@ -186,7 +171,7 @@ class SponsorsTable extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Table(
           columnWidths: const {
-            0: FixedColumnWidth(200),
+            0: FixedColumnWidth(350),
             1: FixedColumnWidth(150),
           },
           children: _sponsors.map((sponsor) {

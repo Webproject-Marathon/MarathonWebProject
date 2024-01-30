@@ -30,36 +30,43 @@ class PageState extends ChangeNotifier {
   String selectedItemDescription3 = 'Ленивец'; 
   String selectedItemDescription4 = 'Капибара'; 
   String selectedItemDescription5 = 'Ягуар'; 
+  String BigText = 'F1-машина, предназначенная для треков, завершит марафон 42 км в захватывающих 2 часах и нескольких минутах.';
 
   void selectFirstButton() {
     isFirstButtonSelected = true;
     isSecondButtonSelected = false;
+
     selectedItemImage1 = 'how_long_imgs/f1-car.jpg'; 
     selectedItemImage2 = 'how_long_imgs/worm.jpg'; 
     selectedItemImage3 = 'how_long_imgs/sloth.jpg'; 
     selectedItemImage4 = 'how_long_imgs/slug.jpg'; 
     selectedItemImage5 = 'how_long_imgs/jaguar.jpg'; 
+
     selectedItemDescription1 = 'Машина F1'; 
     selectedItemDescription2 = 'Червь'; 
     selectedItemDescription3 = 'Ленивец'; 
     selectedItemDescription4 = 'Капибара'; 
     selectedItemDescription5 = 'Ягуар'; 
+    BigText = 'F1-машина, предназначенная для треков, завершит марафон 42 км в захватывающих 2 часах и нескольких минутах.';
     notifyListeners();
   }
 
   void selectSecondButton() {
     isFirstButtonSelected = false;
     isSecondButtonSelected = true;
+
     selectedItemImage1 = 'how_long_imgs/airbus-a380.jpg'; 
     selectedItemImage2 = 'how_long_imgs/pair-of-havaianas.jpg'; 
     selectedItemImage3 = 'how_long_imgs/football-field.jpg'; 
     selectedItemImage4 = 'how_long_imgs/ronaldinho.jpg'; 
     selectedItemImage5 = 'how_long_imgs/bus.jpg';
+
     selectedItemDescription1 = 'Самолет А380'; 
     selectedItemDescription2 = 'Гавайские сандали'; 
     selectedItemDescription3 = 'Футбольное поле'; 
     selectedItemDescription4 = 'Рональдо'; 
     selectedItemDescription5 = 'Автобус'; 
+    BigText = 'Самолет A380 впечатляюще пролетит марафон 42 км за несколько секунд, демонстрируя невероятные возможности в воздушных пространствах.';
     notifyListeners();
   }
 }
@@ -97,7 +104,7 @@ class _HomePage extends State<HomePage> {
                   padding: MaterialStateProperty.all(EdgeInsets.all(5)),
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
+                  Navigator.pushNamed(context, '/info');
                 }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
               ),
             ),
@@ -199,7 +206,7 @@ class _Context1 extends State<Context1> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        'Имя выбранного пункта',
+                        context.watch<PageState>().selectedItemDescription1,
                         style: TextStyle(fontSize: 30, color: Color.fromARGB(255, 87, 87, 87)),
                         textAlign: TextAlign.center,
                       ),
@@ -225,7 +232,7 @@ class _Context1 extends State<Context1> {
                         ),
                       ),
                       Text(
-                        'Информация о скорости выбранного пункта и сколько времени это взяло бы, чтобы закончить марафон.',
+                        context.watch<PageState>().BigText,
                         style: TextStyle(fontSize: 22, color: Color.fromARGB(255, 87, 87, 87)),
                         textAlign: TextAlign.center,
                       ),
