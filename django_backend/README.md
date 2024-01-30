@@ -2,5 +2,6 @@
 ```ps
 $ rm .\db.sqlite3
 (env) $ python .\manage.py migrate
-(env) $ python .\manage.py populate_db
-```
+(env) $  populate_db
+python .\manage.py runserver 
+``` 

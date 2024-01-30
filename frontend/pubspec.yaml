@@ -63,6 +63,13 @@ flutter:
     - assets/bmi_icons/underweight.png
     - assets/gender_icons/female.png
     - assets/gender_icons/male.png
+    - assets/map-icon-drinks.png
+    - assets/map-icon-energy-bars.png
+    - assets/map-icon-information.png
+    - assets/map-icon-medical.png
+    - assets/map-icon-start.png
+    - assets/map-icon-toilets.png
+    - assets/карта.png
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

@@ -4,7 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
-
 class ControlCharity extends StatelessWidget {
   const ControlCharity({super.key});
 
@@ -27,7 +26,6 @@ class CharityOrganization {
   CharityOrganization(
       {required this.name, required this.description, this.logoImage});
 }
-
 
 class CharityOrganizationPage extends StatefulWidget {
   const CharityOrganizationPage({super.key});
@@ -74,56 +72,36 @@ class _CharityOrganizationPageState extends State<CharityOrganizationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 87, 87, 87),
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Align(
-            alignment: Alignment.centerLeft,
-            child:
-                SizedBox(
-                width: 80,
-                height: 35,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/home');
-                  }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
+        leadingWidth: 120,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/check');
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left:12, right: 12),
-                child: 
-                  Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25,color: Colors.white),)
-              ),
-              SizedBox(
-              width: 80,
-              height: 35,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                }, child: const Text('Logout', style: TextStyle(fontSize: 20,color: Colors.black))),
-              ),
-          ],
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(204, 204, 204, 1)),
+              padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
+            ),
+            child: const Text('Назад',
+                style: TextStyle(color: Colors.black, fontSize: 18)),
+          ),
         ),
+        title: const Text(
+          "MARATHON SKILLS 2023",
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 30,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -163,7 +141,9 @@ class _CharityOrganizationPageState extends State<CharityOrganizationPage> {
                       border: OutlineInputBorder(),
                     ),
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 1.0),
                     child: Text(
@@ -212,7 +192,9 @@ class _CharityOrganizationPageState extends State<CharityOrganizationPage> {
                     onPressed: _selectLogoImage,
                     child: Text('Просмотр'),
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(
+                    height: 15,
+                  ),
                   Center(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

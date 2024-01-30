@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
-
 class SponsorView extends StatelessWidget {
   const SponsorView({super.key});
 
@@ -16,8 +15,8 @@ class SponsorView extends StatelessWidget {
     );
   }
 }
-class PageState extends ChangeNotifier {}
 
+class PageState extends ChangeNotifier {}
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -64,56 +63,36 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 87, 87, 87),
-        automaticallyImplyLeading: false,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Align(
-            alignment: Alignment.centerLeft,
-            child:
-                SizedBox(
-                width: 80,
-                height: 35,
-                child: ElevatedButton(
-                  style: ButtonStyle(
-                    shape: MaterialStateProperty.all(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                    ),
-                    backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                    padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                  ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/coordinator_menu');
-                  }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
+        leadingWidth: 120,
+        leading: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/check');
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left:12, right: 12),
-                child: 
-                  Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25,color: Colors.white),)
-              ),
-              SizedBox(
-              width: 80,
-              height: 35,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                }, child: const Text('Logout', style: TextStyle(fontSize: 20,color: Colors.black))),
-              ),
-          ],
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(204, 204, 204, 1)),
+              padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
+            ),
+            child: const Text('Назад',
+                style: TextStyle(color: Colors.black, fontSize: 18)),
+          ),
         ),
+        title: const Text(
+          "MARATHON SKILLS 2023",
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 30,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
       ),
       body: Column(
         children: [

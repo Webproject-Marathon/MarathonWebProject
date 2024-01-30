@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 import 'package:marathon/classes/text_presets.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
-
 class BMIHomeScreen extends StatelessWidget {
   const BMIHomeScreen({super.key});
 
@@ -21,11 +20,11 @@ class PageState extends ChangeNotifier {
   var current = 24.2;
 
   void updateIMT(h, w) {
-    current = w / (h/100 * h/100);
+    current = w / (h / 100 * h / 100);
     notifyListeners();
   }
 
-  void updateGender(value){
+  void updateGender(value) {
     chosenGender = value;
     notifyListeners();
   }
@@ -72,7 +71,8 @@ class _BMIScreenState extends State<BMIScreen> {
                             children: [
                               Text(
                                 'BMI калькулятор',
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               const SizedBox(height: 8),
                             ],
@@ -83,18 +83,17 @@ class _BMIScreenState extends State<BMIScreen> {
                                   width: 400,
                                   child: const Text(
                                     "Индекс массы тела - величина, позволяющая оценить соответствие массы человека и его роста. Введите данные, чтобы узнать свой ИМТ:",
-                                    style: TextStyle(fontSize: 16, color: Colors.black),
+                                    style: TextStyle(
+                                        fontSize: 16, color: Colors.black),
                                     textAlign: TextAlign.center,
-                                  )
-                              ),
+                                  )),
                               const Padding(
                                 padding: EdgeInsets.all(10.0),
                                 child: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       GenderOption(),
-                                    ]
-                                ),
+                                    ]),
                               ),
                               const InputForms(),
                             ],
@@ -117,23 +116,36 @@ class _BMIScreenState extends State<BMIScreen> {
         ),
       ),
       appBar: AppBar(
-        leadingWidth: 110,
+        leadingWidth: 120,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
           child: ElevatedButton(
-            onPressed: () { Navigator.pushNamed(context, '/info'); },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromRGBO(204, 204, 204, 1),
-              elevation: 0,
+            onPressed: () {
+              Navigator.pushNamed(context, '/check');
+            },
+            style: ButtonStyle(
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+              backgroundColor: MaterialStateProperty.all(
+                  const Color.fromRGBO(204, 204, 204, 1)),
+              padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
             ),
-            child: const DefaultText(text: "Назад"),
+            child: const Text('Назад',
+                style: TextStyle(color: Colors.black, fontSize: 18)),
           ),
         ),
         title: const Text(
           "MARATHON SKILLS 2023",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(
+            fontWeight: FontWeight.w900,
+            fontSize: 30,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: Color.fromRGBO(82, 82, 82, 1),
+        backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
       ),
       bottomNavigationBar: const BottomNavigationBarWithTimer(),
     );
@@ -150,7 +162,6 @@ class GenderOption extends StatefulWidget {
 }
 
 class GenderOptionState extends State<GenderOption> {
-
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<PageState>();
@@ -160,32 +171,33 @@ class GenderOptionState extends State<GenderOption> {
         Column(
           children: [
             OutlinedButton(
-                onPressed: (){ appState.updateGender('male'); },
+                onPressed: () {
+                  appState.updateGender('male');
+                },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
                       width: appState.chosenGender == 'male' ? 2.0 : 1.0,
-                      color: const Color.fromRGBO(101, 101, 101, 1)
-                  ),
+                      color: const Color.fromRGBO(101, 101, 101, 1)),
                   backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
                 ),
-                child: const GenderCard(gender: 'male', genderName: 'Мужской')
-            ),
+                child: const GenderCard(gender: 'male', genderName: 'Мужской')),
           ],
         ), //m
         const SizedBox(width: 10),
         Column(
           children: [
             OutlinedButton(
-                onPressed: (){ appState.updateGender('female');},
+                onPressed: () {
+                  appState.updateGender('female');
+                },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
                       width: appState.chosenGender == 'female' ? 2.0 : 1.0,
-                      color: const Color.fromRGBO(101, 101, 101, 1)
-                  ),
-                  backgroundColor:  const Color.fromRGBO(234, 234, 234, 1),
+                      color: const Color.fromRGBO(101, 101, 101, 1)),
+                  backgroundColor: const Color.fromRGBO(234, 234, 234, 1),
                 ),
-                child: const GenderCard(gender: 'female', genderName: 'Женский')
-            ),
+                child:
+                    const GenderCard(gender: 'female', genderName: 'Женский')),
           ],
         ), //f
       ],
@@ -207,20 +219,19 @@ class GenderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Column(
-          children:[
-            ImageIcon(
-              AssetImage('assets/gender_icons/${gender}.png'),
-              color: const Color.fromRGBO(101, 101, 101, 1),
-              size: 80,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              '${genderName}',
-              style: const TextStyle(color: Color.fromRGBO(101, 101, 101, 1), fontSize: 16),
-            ),
-          ]
-      ),
+      child: Column(children: [
+        ImageIcon(
+          AssetImage('assets/gender_icons/${gender}.png'),
+          color: const Color.fromRGBO(101, 101, 101, 1),
+          size: 80,
+        ),
+        const SizedBox(height: 8),
+        Text(
+          '${genderName}',
+          style: const TextStyle(
+              color: Color.fromRGBO(101, 101, 101, 1), fontSize: 16),
+        ),
+      ]),
     );
   }
 }
@@ -246,31 +257,29 @@ class BMIResult extends StatelessWidget {
       if (bmi <= 11) {
         indent_left = 0;
         indent_right = 400;
-      }
-      else {
-        indent_left = 100*(bmi-11)/7.5;
-        indent_right = 400 - 100*(bmi-11)/7.5;
+      } else {
+        indent_left = 100 * (bmi - 11) / 7.5;
+        indent_right = 400 - 100 * (bmi - 11) / 7.5;
       }
     } else if (bmi <= 25) {
       bmiOption = "healthy";
       bmiOptionName = "Здоровый";
-      indent_left = 100*(bmi-18.5)/7.5 + 100;
-      indent_right = 400 - (100*(bmi-18.5)/7.5 + 100);
+      indent_left = 100 * (bmi - 18.5) / 7.5 + 100;
+      indent_right = 400 - (100 * (bmi - 18.5) / 7.5 + 100);
     } else if (bmi <= 30) {
       bmiOption = "overweight";
       bmiOptionName = "Избыточный";
-      indent_left = 100*(bmi-25)/5 + 200;
-      indent_right = 400 - (100*(bmi-25)/5 + 200);
+      indent_left = 100 * (bmi - 25) / 5 + 200;
+      indent_right = 400 - (100 * (bmi - 25) / 5 + 200);
     } else {
       bmiOption = "obese";
       bmiOptionName = "Ожирение";
       if (bmi > 35) {
         indent_left = 400;
         indent_right = 0;
-      }
-      else {
-        indent_left = 100*(bmi-30)/5 + 300;
-        indent_right = 400 - (100*(bmi-30)/5 + 300);
+      } else {
+        indent_left = 100 * (bmi - 30) / 5 + 300;
+        indent_right = 400 - (100 * (bmi - 30) / 5 + 300);
       }
     }
 
@@ -289,22 +298,21 @@ class BMIResult extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                      children:[
-                        ImageIcon(
-                          AssetImage('assets/bmi_icons/${bmiOption}.png'),
-                          color: const Color.fromRGBO(101, 101, 101, 1),
-                          size: 160,
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          '${bmiOptionName}',
-                          style: const TextStyle(color: Color.fromRGBO(101, 101, 101, 1), fontSize: 16),
-                        ),
-                      ]
-                  ),
-                )
-            ),
+                  child: Column(children: [
+                    ImageIcon(
+                      AssetImage('assets/bmi_icons/${bmiOption}.png'),
+                      color: const Color.fromRGBO(101, 101, 101, 1),
+                      size: 160,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${bmiOptionName}',
+                      style: const TextStyle(
+                          color: Color.fromRGBO(101, 101, 101, 1),
+                          fontSize: 16),
+                    ),
+                  ]),
+                )),
           ),
         ),
         FittedBox(
@@ -318,8 +326,14 @@ class BMIResult extends StatelessWidget {
                     SizedBox(width: indent_left),
                     Column(
                       children: [
-                        Text("${bmi.toStringAsFixed(2)}", style: const TextStyle(fontSize: 20,)),
-                        const Text("|", style: TextStyle(fontSize: 17,)),
+                        Text("${bmi.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              fontSize: 20,
+                            )),
+                        const Text("|",
+                            style: TextStyle(
+                              fontSize: 17,
+                            )),
                       ],
                     ),
                     SizedBox(width: indent_right),
@@ -338,10 +352,10 @@ class BMIResult extends StatelessWidget {
                           color: Colors.yellow,
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                            'Недостаточный',
-                            style: TextStyle(color: Color.fromRGBO(180, 180, 180, 1), fontSize: 14)
-                        )
+                        const Text('Недостаточный',
+                            style: TextStyle(
+                                color: Color.fromRGBO(180, 180, 180, 1),
+                                fontSize: 14))
                       ],
                     ),
                     Column(
@@ -352,10 +366,10 @@ class BMIResult extends StatelessWidget {
                           color: Colors.lightGreen,
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                            'Здоровый',
-                            style: TextStyle(color: Color.fromRGBO(180, 180, 180, 1), fontSize: 14)
-                        ),
+                        const Text('Здоровый',
+                            style: TextStyle(
+                                color: Color.fromRGBO(180, 180, 180, 1),
+                                fontSize: 14)),
                       ],
                     ),
                     Column(
@@ -366,10 +380,10 @@ class BMIResult extends StatelessWidget {
                           color: Colors.yellow,
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                            'Избыточный',
-                            style: TextStyle(color: Color.fromRGBO(180, 180, 180, 1), fontSize: 14)
-                        ),
+                        const Text('Избыточный',
+                            style: TextStyle(
+                                color: Color.fromRGBO(180, 180, 180, 1),
+                                fontSize: 14)),
                       ],
                     ),
                     Column(
@@ -380,10 +394,10 @@ class BMIResult extends StatelessWidget {
                           color: Colors.red,
                         ),
                         const SizedBox(height: 8),
-                        const Text(
-                            'Ожирение',
-                            style: TextStyle(color: Color.fromRGBO(180, 180, 180, 1), fontSize: 14)
-                        ),
+                        const Text('Ожирение',
+                            style: TextStyle(
+                                color: Color.fromRGBO(180, 180, 180, 1),
+                                fontSize: 14)),
                       ],
                     ),
                   ],
@@ -396,7 +410,6 @@ class BMIResult extends StatelessWidget {
     );
   }
 }
-
 
 class InputForms extends StatefulWidget {
   const InputForms({super.key});
@@ -421,19 +434,21 @@ class InputFormsState extends State<InputForms> {
       key: _formKey,
       child: Center(
         child: Column(
-          mainAxisSize:MainAxisSize.min,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
-              mainAxisSize:MainAxisSize.min,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const DefaultText (text: "Рост:"),
+                const DefaultText(text: "Рост:"),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 40,
                   child: TextFormField(
                     controller: _heightController,
                     validator: (value) {
-                      if (value == null || value.isEmpty || double.tryParse(value) == null) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          double.tryParse(value) == null) {
                         return '!';
                       }
                       return null;
@@ -441,20 +456,22 @@ class InputFormsState extends State<InputForms> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                const DefaultText (text: "см"),
+                const DefaultText(text: "см"),
               ],
             ),
             Row(
-              mainAxisSize:MainAxisSize.min,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const DefaultText (text: "Вес:"),
+                const DefaultText(text: "Вес:"),
                 const SizedBox(width: 10),
                 SizedBox(
                   width: 40,
                   child: TextFormField(
                     controller: _weightController,
                     validator: (value) {
-                      if (value == null || value.isEmpty || double.tryParse(value) == null) {
+                      if (value == null ||
+                          value.isEmpty ||
+                          double.tryParse(value) == null) {
                         return '!';
                       }
                       return null;
@@ -462,42 +479,41 @@ class InputFormsState extends State<InputForms> {
                   ),
                 ),
                 const SizedBox(width: 10),
-                const DefaultText (text: "кг"),
+                const DefaultText(text: "кг"),
               ],
             ),
             const SizedBox(height: 15),
-            Row(
-                mainAxisSize:MainAxisSize.min,
-                children: [
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(backgroundColor: Color.fromRGBO(242, 242, 242, 1)),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        final userData = {
-                          'height': double.parse(_heightController.text),
-                          'weight': double.parse(_weightController.text),
-                        };
-                        appState.updateIMT(userData['height'], userData['weight']);
-                        //print(userData.toString());
-                        //print(appState.current);
-                        //_formKey.currentState!.save();
-                      }
-                    },
-                    child: const DefaultText (text: 'Рассчитать'),
-                  ),
-                  const SizedBox(width: 10),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(backgroundColor: Color.fromRGBO(242, 242, 242, 1)),
-                    onPressed: () {
-                      _formKey.currentState!.reset();
-                      _heightController.text = "";
-                      _weightController.text = "";
-                      appState.resetIMT(24.2);
-                    },
-                    child: const DefaultText (text: 'Отмена'),
-                  ),
-                ]
-            ),
+            Row(mainAxisSize: MainAxisSize.min, children: [
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(242, 242, 242, 1)),
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    final userData = {
+                      'height': double.parse(_heightController.text),
+                      'weight': double.parse(_weightController.text),
+                    };
+                    appState.updateIMT(userData['height'], userData['weight']);
+                    //print(userData.toString());
+                    //print(appState.current);
+                    //_formKey.currentState!.save();
+                  }
+                },
+                child: const DefaultText(text: 'Рассчитать'),
+              ),
+              const SizedBox(width: 10),
+              OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    backgroundColor: Color.fromRGBO(242, 242, 242, 1)),
+                onPressed: () {
+                  _formKey.currentState!.reset();
+                  _heightController.text = "";
+                  _weightController.text = "";
+                  appState.resetIMT(24.2);
+                },
+                child: const DefaultText(text: 'Отмена'),
+              ),
+            ]),
           ],
         ),
       ),

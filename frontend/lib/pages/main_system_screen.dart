@@ -26,7 +26,7 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(context) => Scaffold(
-    appBar: AppBar(
+        appBar: AppBar(
           backgroundColor: Color.fromARGB(255, 87, 87, 87),
           toolbarHeight: 140,
           centerTitle: true,

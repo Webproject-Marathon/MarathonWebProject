@@ -81,168 +81,104 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double formWidth =
+        screenWidth > 600 ? 480 : screenWidth * 0.8; // Адаптивная ширина формы
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 87, 87, 87),
-        automaticallyImplyLeading: false,
-        title: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(right: 40),
-              child: SizedBox(
-                width: 90,
-                height: 35,
-                child: ElevatedButton(
-                    style: ButtonStyle(
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(
-                          Color.fromARGB(255, 215, 215, 215)),
-                      padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/home');
-                    },
-                    child: const Text('Назад',
-                        style: TextStyle(fontSize: 20, color: Colors.black))),
+        title: const Text('MARATHON SKILLS 2023'),
+        actions: [
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color.fromARGB(255, 215, 215, 215),
+              onPrimary: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
-            const Text(
-              'MARATHON SKILLS 2023',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  fontSize: 30,
-                  color: Colors.white),
-            ),
-          ],
-        ),
+            onPressed: () => Navigator.pushNamed(context, '/home'),
+            child: const Text('Назад', style: TextStyle(fontSize: 20)),
+          ),
+        ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              const Text(
                 'Форма авторизации',
                 style: TextStyle(
                     fontSize: 30, color: Color.fromARGB(255, 87, 87, 87)),
                 textAlign: TextAlign.center,
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              child: Text(
+              const SizedBox(height: 8.0),
+              const Text(
                 'Пожалуйста, авторизируйтесь в системе, используя ваш адрес электронной почты и пароль.',
                 style: TextStyle(
-                    fontSize: 25, color: Color.fromARGB(255, 87, 87, 87)),
+                    fontSize: 20, color: Color.fromARGB(255, 87, 87, 87)),
                 textAlign: TextAlign.center,
               ),
-            ),
-            Wrap(
-              alignment: WrapAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    'Email',
-                    style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 87, 87, 87)),
-                    textAlign: TextAlign.center,
+              const SizedBox(height: 20.0),
+              Container(
+                width: formWidth,
+                child: TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-                SizedBox(width: 60),
-                Container(
-                  width: 350,
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
-                    ),
+              ),
+              const SizedBox(height: 16.0),
+              Container(
+                width: formWidth,
+                child: TextField(
+                  controller: _passwordController,
+                  obscureText: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Wrap(
-              alignment: WrapAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text(
-                    'Password',
-                    style: TextStyle(
-                        fontSize: 20, color: Color.fromARGB(255, 87, 87, 87)),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                SizedBox(width: 20),
-                Container(
-                  width: 350,
-                  child: TextField(
-                    controller: _passwordController,
-                    obscureText: true,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.0),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                mainAxisSize: MainAxisSize.min, // Выравнивание кнопок
+              ),
+              const SizedBox(height: 24.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height: 16.0),
                   ElevatedButton(
                     style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(
-                            Color.fromARGB(255, 215, 215, 215)),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(15)),
-                        textStyle:
-                            MaterialStateProperty.all(TextStyle(fontSize: 20))),
-                    onPressed: () {
-                      _login();
-                    },
-                    child: Text('Login'),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 215, 215, 215)),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(
+                              horizontal: 30, vertical: 15)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                    ),
+                    onPressed: _login,
+                    child: Text('Login', style: TextStyle(fontSize: 20)),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.01,
-                  ),
+                  const SizedBox(width: 16.0),
                   ElevatedButton(
                     style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(
-                            Color.fromARGB(255, 215, 215, 215)),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(15)),
-                        textStyle:
-                            MaterialStateProperty.all(TextStyle(fontSize: 20))),
-                    onPressed: () {},
-                    child: Text('Cancel'),
+                      backgroundColor: MaterialStateProperty.all(
+                          Color.fromARGB(255, 215, 215, 215)),
+                      padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(vertical: 15)),
+                      shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                    ),
+                    onPressed: () {/* Отмена действия */},
+                    child: Text('Cancel', style: TextStyle(fontSize: 20)),
                   ),
                 ],
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: const BottomNavigationBarWithTimer(),

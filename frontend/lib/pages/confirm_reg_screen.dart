@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
 
-
 class ConfirmRegScreen extends StatelessWidget {
   const ConfirmRegScreen({super.key});
 
@@ -27,69 +26,45 @@ class HomePage extends StatefulWidget {
 class _HomePage extends State<HomePage> {
   @override
   Widget build(context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: Color.fromARGB(255, 87, 87, 87),
-      automaticallyImplyLeading: false,
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Align(
-          alignment: Alignment.centerLeft,
-          child:
-              SizedBox(
-              width: 80,
-              height: 35,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                  ),
-                  backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                  padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                }, child: const Text('Назад', style: TextStyle(fontSize: 20,color: Colors.black))),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.only(left:12, right: 12),
-              child: 
-                Text('MARATHON SKILLS 2023', style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25,color: Colors.white),)
-            ),
-            SizedBox(
-            width: 80,
-            height: 35,
+        appBar: AppBar(
+          leadingWidth: 120,
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/check');
+              },
               style: ButtonStyle(
                 shape: MaterialStateProperty.all(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                backgroundColor: MaterialStateProperty.all(
+                    const Color.fromRGBO(204, 204, 204, 1)),
+                padding: MaterialStateProperty.all(const EdgeInsets.all(5)),
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, '/home');
-              }, child: const Text('Logout', style: TextStyle(fontSize: 20,color: Colors.black))),
+              child: const Text('Назад',
+                  style: TextStyle(color: Colors.black, fontSize: 18)),
             ),
-        ],
-      ),
-    ),
-    body: SafeArea(
-        child:Center(
-          child:
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: Content()
+          ),
+          title: const Text(
+            "MARATHON SKILLS 2023",
+            style: TextStyle(
+              fontWeight: FontWeight.w900,
+              fontSize: 30,
+              color: Colors.white,
             ),
-        )
-    ),
-    bottomNavigationBar: const BottomNavigationBarWithTimer(),
-  );
+          ),
+          backgroundColor: const Color.fromRGBO(82, 82, 82, 1),
+        ),
+        body: SafeArea(
+            child: Center(
+          child: Container(
+              width: MediaQuery.of(context).size.width, child: Content()),
+        )),
+        bottomNavigationBar: const BottomNavigationBarWithTimer(),
+      );
 }
 
 class Content extends StatefulWidget {
@@ -102,19 +77,17 @@ class Content extends StatefulWidget {
 class _Content extends State<Content> {
   @override
   Widget build(context) =>
-    Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return AnimatedContainer(
+      Scaffold(body: LayoutBuilder(builder: (context, constraints) {
+        return AnimatedContainer(
             duration: Duration(milliseconds: 500),
             color: Color.fromARGB(255, 255, 255, 255),
-            padding: constraints.maxHeight < 500 ? EdgeInsets.zero : EdgeInsets.all(30.0) ,
+            padding: constraints.maxHeight < 500
+                ? EdgeInsets.zero
+                : EdgeInsets.all(30.0),
             child: Align(
               alignment: Alignment.topCenter,
               child: Container(
-                padding: EdgeInsets.symmetric(
-                  vertical: 30.0, horizontal: 25.0
-                ),
+                padding: EdgeInsets.symmetric(vertical: 30.0, horizontal: 25.0),
                 constraints: BoxConstraints(
                   maxWidth: 600,
                   maxHeight: 400,
@@ -124,40 +97,54 @@ class _Content extends State<Content> {
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Text('Спасибо за вашу регистрацию в качестве бегуна!', style: TextStyle(fontSize: 30,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text('Спасибо за вашу регистрацию в качестве бегуна в Marathon Skills 2023!', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center),
-                    const Text('С вами свяжутся по поводу оплаты.', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 87, 87, 87)),textAlign: TextAlign.center),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                    width: 120,
-                    height: 35,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 222, 222, 222)),
-                        padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text('Спасибо за вашу регистрацию в качестве бегуна!',
+                          style: TextStyle(
+                              fontSize: 30,
+                              color: Color.fromARGB(255, 87, 87, 87)),
+                          textAlign: TextAlign.center),
+                      SizedBox(
+                        height: 10,
                       ),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/runner_menu');
-                      }, child:  Text('OK', style: TextStyle(fontSize: 20,color: Colors.black))),
-                    ),
-                  ]
-                ),
+                      Text(
+                          'Спасибо за вашу регистрацию в качестве бегуна в Marathon Skills 2023!',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 87, 87, 87)),
+                          textAlign: TextAlign.center),
+                      const Text('С вами свяжутся по поводу оплаты.',
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 87, 87, 87)),
+                          textAlign: TextAlign.center),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 120,
+                        height: 35,
+                        child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                              backgroundColor: MaterialStateProperty.all(
+                                  Color.fromARGB(255, 222, 222, 222)),
+                              padding:
+                                  MaterialStateProperty.all(EdgeInsets.all(5)),
+                            ),
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/runner_menu');
+                            },
+                            child: Text('OK',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black))),
+                      ),
+                    ]),
               ),
-            )
-          );
-        }
-      )
-   );
+            ));
+      }));
 }
