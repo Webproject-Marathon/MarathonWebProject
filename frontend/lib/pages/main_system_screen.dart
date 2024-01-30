@@ -47,7 +47,7 @@ class _HomePage extends State<HomePage> {
                       fontSize: 20, color: Color.fromARGB(255, 186, 186, 186)),
                 ),
                 Text(
-                  'среда, 21 октября 2023',
+                  'среда, 31 января 2024',
                   style: TextStyle(
                       fontSize: 20, color: Color.fromARGB(255, 188, 188, 188)),
                 )
