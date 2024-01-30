@@ -17,13 +17,13 @@ class BottomNavigationBarWithTimer extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          // CountDownTimer(
-          //   targetDateTime: Constants.marathonStartDateTime,
-          //   countDownTimerStyle: const TextStyle(
-          //     color: Colors.white,
-          //     fontSize: 18.0,
-          //   ),
-          // )
+          CountDownTimer(
+            targetDateTime: Constants.marathonStartDateTime,
+            countDownTimerStyle: const TextStyle(
+              color: Colors.white,
+              fontSize: 18.0,
+            ),
+          )
         ],
       ),
     );
