@@ -35,7 +35,7 @@ class _CountDownTimerState extends State<CountDownTimer>
     final minutesStr = minutes.toString().padLeft(2, '0');
     final secondsStr = seconds.toString().padLeft(2, '0');
 
-    return 'До начала марафона осталось $daysStr дней, $hoursStr часов, $minutesStr минут и $secondsStr секунд';
+    return 'До марафона $daysStr дней и $hoursStr:$minutesStr:$secondsStr';
   }
 
 
