@@ -12,10 +12,10 @@ class MyResultsScreen extends StatefulWidget {
 class _MyResultsScreen extends State<MyResultsScreen> {
   final List<Map> _users = [
     {'marathon': 'Марафон', 'distance': 'Дистанция', 'time': 'Время', 'overall_place': 'Общее место', 'category_place': 'Место по категории'},
-    {'marathon': '2014 Japan', 'distance': '42km Full Marathon', 'time': '2h 27m 14s', 'overall_place': '#598', 'category_place': '#184'},
-    {'marathon': '2013 Germany', 'distance': '42km Full Marathon', 'time': '2h 27m 13s', 'overall_place': '#604', 'category_place': '#199'},
-    {'marathon': '2012 Vietnam', 'distance': '42km Full Marathon', 'time': '2h 37m 14s', 'overall_place': '#623', 'category_place': '#214'},
-    {'marathon': '2011 United Kingdom', 'distance': '42km Full Marathon', 'time': '2h 28m 14s', 'overall_place': '#712', 'category_place': '#254'}
+    {'marathon': '2023 Japan', 'distance': '42km Full Marathon', 'time': '2h 27m 14s', 'overall_place': '#598', 'category_place': '#104'},
+    {'marathon': '2022 New York', 'distance': '21km Half Marathon', 'time': '1h 35m 42s', 'overall_place': '#225', 'category_place': '#45'},
+    {'marathon': '2021 Berlin', 'distance': '10km Road Race', 'time': '48m 17s', 'overall_place': '#72', 'category_place': '#15'},
+    {'marathon': '2020 Paris', 'distance': '5km Charity Run', 'time': '25m 50s', 'overall_place': '#33', 'category_place': '#7'}
 
   ];
 
