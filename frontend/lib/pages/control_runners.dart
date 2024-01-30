@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:marathon/components/bottom_navigation_bar_with_timer.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 
 
 class ControlRunners extends StatelessWidget {
@@ -9,13 +12,25 @@ class ControlRunners extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => PageState(),
+      create: (context) => RunnersModel(),
       child: const HomePage(),
     );
   }
 }
 
-class PageState extends ChangeNotifier {}
+class RunnersModel extends ChangeNotifier {
+  int totalRunners = 0;
+  // Initialize runnersTable with mock data
+  // to show it while actual data is loading from database.
+  List<Map> runnersTable = [
+    {'name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email', 'status': 'Статус', 'space': ''},
+    {'name': 'First', 'last_name': 'Runner', 'email': 'first@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
+    {'name': 'Second', 'last_name': 'Runner', 'email': 'second@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
+    {'name': 'Third', 'last_name': 'Runner', 'email': 'third@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
+    {'name': 'Fourth', 'last_name': 'Runner', 'email': 'fourth@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
+    {'name': 'Fourth', 'last_name': 'Runner', 'email': 'fourth@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
+  ];
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -25,6 +40,48 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    getRunnersData();
+  }
+
+  void getRunnersData() async {
+    RunnersModel runnersModel = Provider.of<RunnersModel>(context, listen: false);
+
+    var request = http.MultipartRequest('GET', Uri.parse('http://127.0.0.1:8000/runner-management/'));
+    var response = await http.Client().send(request);
+    if (response.statusCode != 200) {
+      print('/runner-management/ request error! ${response.reasonPhrase}');
+      return;
+    }
+    var responseData = await response.stream.bytesToString();
+    var jsonResponse = json.decode(responseData);
+
+    runnersModel.runnersTable.clear();
+    // Add table header.
+    runnersModel.runnersTable.add({
+      'name': 'Имя',
+      'last_name': 'Фамилия',
+      'email': 'Email',
+      'status': 'Статус',
+      'space': ''},
+    );
+    // Fill the table.
+    for (var runner in jsonResponse['results']) {
+      runnersModel.runnersTable.add({
+        'name': runner['runner_first_name'],
+        'last_name': runner['runner_last_name'],
+        'email': runner['runner_email'],
+        'status': runner['registration_status'],
+        'space': ''
+      });
+    }
+
+    runnersModel.totalRunners = jsonResponse["count"];
+
+  }
+
   @override
   Widget build(context) => Scaffold(
     appBar: AppBar(
@@ -104,7 +161,7 @@ class _HomePage extends State<HomePage> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 350,
-                    child: Context3()
+                    child: RunnersTable()
                   ),
                 ]
               )
@@ -138,7 +195,7 @@ class _HomePage extends State<HomePage> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     height: 350,
-                    child: Context3()
+                    child: RunnersTable()
                   ),
                 ]
               )
@@ -368,21 +425,16 @@ class _PageText extends State<PageText> {
    );
 }
 
-class Context3 extends StatefulWidget {
-  const Context3({super.key});
+class RunnersTable extends StatefulWidget {
+  const RunnersTable({super.key});
 
   @override
-  State<Context3> createState() => _Context3();
+  State<RunnersTable> createState() => _RunnersTable();
 }
 
-class _Context3 extends State<Context3> {
-  final List<Map> _users = [
-    {'name': 'Имя', 'last_name': 'Фамилия', 'email': 'Email', 'status': 'Статус', 'space': ''},
-    {'name': 'First', 'last_name': 'Runner', 'email': 'first@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
-    {'name': 'Second', 'last_name': 'Runner', 'email': 'second@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
-    {'name': 'Third', 'last_name': 'Runner', 'email': 'third@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
-    {'name': 'Fourth', 'last_name': 'Runner', 'email': 'fourth@runner.com', 'status': 'Оплата подтверждена', 'space': ''},
-  ];
+
+
+class _RunnersTable extends State<RunnersTable> {
   @override
   Widget build(context) =>
     Scaffold(
@@ -393,115 +445,128 @@ class _Context3 extends State<Context3> {
             color: Color.fromARGB(255, 252, 252, 252),
             child: Align(
               alignment: Alignment.topCenter,
-              child: Container(
-                constraints: BoxConstraints(
-                  maxWidth: 1000,
-                  maxHeight: 350,
-                ),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 252, 252, 252),
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                child:
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text('Total runners:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Color.fromARGB(255, 53, 53, 53))),
-                        Text('123', style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 53, 53, 53))),
-                      ],
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Table(
-                        columnWidths: const {
-                          0: FixedColumnWidth(200),
-                          1: FixedColumnWidth(200),
-                          2: FixedColumnWidth(200),
-                          3: FixedColumnWidth(200),
-                          4: FixedColumnWidth(100),
-                        },
-                        children: _users.map((user) {
-                          return TableRow(children: [
-                            Container(
-                                color: _users.indexOf(user) == 0
-                                    ? Color.fromARGB(255, 147, 147, 147)
-                                    : _users.indexOf(user) % 2 == 0
-                                    ? Color.fromARGB(255, 183, 183, 183)
-                                    : Color.fromARGB(255, 205, 205, 205),
-                                padding: const EdgeInsets.all(15),
-                                child:_users.indexOf(user) == 0
-                                    ? Text(user['name'].toString(), style: TextStyle(fontWeight: FontWeight.bold))
-                                    : Text(user['name'].toString())),
-                            Container(
-                                color: _users.indexOf(user) == 0
-                                    ? Color.fromARGB(255, 147, 147, 147)
-                                    : _users.indexOf(user) % 2 == 0
-                                    ? Color.fromARGB(255, 183, 183, 183)
-                                    : Color.fromARGB(255, 205, 205, 205),
-                                padding: const EdgeInsets.all(15),
-                                child: _users.indexOf(user) == 0
-                                    ? Text(user['last_name'], style: TextStyle(fontWeight: FontWeight.bold))
-                                    : Text(user['last_name'])),
-                            Container(
-                                color: _users.indexOf(user) == 0
-                                    ? Color.fromARGB(255, 147, 147, 147)
-                                    : _users.indexOf(user) % 2 == 0
-                                    ? Color.fromARGB(255, 183, 183, 183)
-                                    : Color.fromARGB(255, 205, 205, 205),
-                                padding: const EdgeInsets.all(15),
-                                child: _users.indexOf(user) == 0
-                                    ? Text(user['email'], style: TextStyle(fontWeight: FontWeight.bold))
-                                    : Text(user['email'])),
-                            Container(
-                                color: _users.indexOf(user) == 0
-                                    ? Color.fromARGB(255, 147, 147, 147)
-                                    : _users.indexOf(user) % 2 == 0
-                                    ? Color.fromARGB(255, 183, 183, 183)
-                                    : Color.fromARGB(255, 205, 205, 205),
-                                padding: const EdgeInsets.all(15),
-                                child: _users.indexOf(user) == 0
-                                    ? Text(user['status'], style: TextStyle(fontWeight: FontWeight.bold))
-                                    : Text(user['status'])),
-                            Container(
-                                color: _users.indexOf(user) == 0
-                                    ? Color.fromARGB(255, 147, 147, 147)
-                                    : _users.indexOf(user) % 2 == 0
-                                    ? Color.fromARGB(255, 183, 183, 183)
-                                    : Color.fromARGB(255, 205, 205, 205),
-                                padding: const EdgeInsets.all(8),
-                                child: _users.indexOf(user) == 0
-                                    ? SizedBox(
-                                        width: 50,
-                                        height: 30
-                                      )
-                                    : SizedBox(
-                                        width: 50,
-                                        height: 30,
-                                        child: ElevatedButton(
-                                          style: ButtonStyle(
-                                            shape: MaterialStateProperty.all(
-                                              RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(5),
-                                              ),
-                                            ),
-                                            backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
-                                            padding: MaterialStateProperty.all(EdgeInsets.all(5)),
-                                          ),
-                                          onPressed: () { Navigator.pushNamed(context, '/manage_runner'); },
-                                          child: const Text('edit', style: TextStyle(fontSize: 20,color: Colors.black)))
-                                      )
-                            )
-                          ]);
-                        }).toList(),
-                        border: TableBorder.all(width: 2, color: Color.fromARGB(255, 41, 41, 41)),
+              child: SingleChildScrollView(
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 1000,
+                    // maxHeight: 3500,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 252, 252, 252),
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  child:
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Consumer<RunnersModel>(
+                            builder: (context, runnersModel, child) {
+                              return Text(
+                                  'Total runners: ${runnersModel.totalRunners}',
+                                  style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 53, 53, 53))
+                              );
+                            },
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
-                )
-                
+                      Consumer<RunnersModel>(
+                        builder: (context, runnersModel, child) {
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Table(
+                              columnWidths: const {
+                                0: FixedColumnWidth(200),
+                                1: FixedColumnWidth(200),
+                                2: FixedColumnWidth(200),
+                                3: FixedColumnWidth(200),
+                                4: FixedColumnWidth(100),
+                              },
+                              children: runnersModel.runnersTable.map((user) {
+                                return TableRow(children: [
+                                  Container(
+                                      color: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Color.fromARGB(255, 147, 147, 147)
+                                          : runnersModel.runnersTable.indexOf(user) % 2 == 0
+                                          ? Color.fromARGB(255, 183, 183, 183)
+                                          : Color.fromARGB(255, 205, 205, 205),
+                                      padding: const EdgeInsets.all(15),
+                                      child:runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Text(user['name'].toString(), style: TextStyle(fontWeight: FontWeight.bold))
+                                          : Text(user['name'].toString())),
+                                  Container(
+                                      color: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Color.fromARGB(255, 147, 147, 147)
+                                          : runnersModel.runnersTable.indexOf(user) % 2 == 0
+                                          ? Color.fromARGB(255, 183, 183, 183)
+                                          : Color.fromARGB(255, 205, 205, 205),
+                                      padding: const EdgeInsets.all(15),
+                                      child: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Text(user['last_name'], style: TextStyle(fontWeight: FontWeight.bold))
+                                          : Text(user['last_name'])),
+                                  Container(
+                                      color: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Color.fromARGB(255, 147, 147, 147)
+                                          : runnersModel.runnersTable.indexOf(user) % 2 == 0
+                                          ? Color.fromARGB(255, 183, 183, 183)
+                                          : Color.fromARGB(255, 205, 205, 205),
+                                      padding: const EdgeInsets.all(15),
+                                      child: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Text(user['email'], style: TextStyle(fontWeight: FontWeight.bold))
+                                          : Text(user['email'])),
+                                  Container(
+                                      color: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Color.fromARGB(255, 147, 147, 147)
+                                          : runnersModel.runnersTable.indexOf(user) % 2 == 0
+                                          ? Color.fromARGB(255, 183, 183, 183)
+                                          : Color.fromARGB(255, 205, 205, 205),
+                                      padding: const EdgeInsets.all(15),
+                                      child: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Text(user['status'], style: TextStyle(fontWeight: FontWeight.bold))
+                                          : Text(user['status'])),
+                                  Container(
+                                      color: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? Color.fromARGB(255, 147, 147, 147)
+                                          : runnersModel.runnersTable.indexOf(user) % 2 == 0
+                                          ? Color.fromARGB(255, 183, 183, 183)
+                                          : Color.fromARGB(255, 205, 205, 205),
+                                      padding: const EdgeInsets.all(8),
+                                      child: runnersModel.runnersTable.indexOf(user) == 0
+                                          ? SizedBox(
+                                          width: 50,
+                                          height: 30
+                                      )
+                                          : SizedBox(
+                                          width: 50,
+                                          height: 30,
+                                          child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                shape: MaterialStateProperty.all(
+                                                  RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(5),
+                                                  ),
+                                                ),
+                                                backgroundColor: MaterialStateProperty.all(Color.fromARGB(255, 215, 215, 215)),
+                                                padding: MaterialStateProperty.all(EdgeInsets.all(5)),
+                                              ),
+                                              onPressed: () { Navigator.pushNamed(context, '/manage_runner'); },
+                                              child: const Text('edit', style: TextStyle(fontSize: 20,color: Colors.black)))
+                                      )
+                                  )
+                                ]);
+                              }).toList(),
+                              border: TableBorder.all(width: 2, color: Color.fromARGB(255, 41, 41, 41)),
+                            ),
+                          );
+                        }
+                      )
+
+                    ],
+                  )
+
+                ),
               )
             )
           );
