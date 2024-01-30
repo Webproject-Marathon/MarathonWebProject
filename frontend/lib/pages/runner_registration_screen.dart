@@ -247,7 +247,7 @@ class RegistrationFormsState extends State<RegistrationForms> {
         String userUrl = jsonResponse['url'];
 
         var runnersRequest = http.MultipartRequest(
-            'POST', Uri.parse('http://192.168.249.188/runners/'));
+            'POST', Uri.parse('http://127.0.0.1:8000/runners/'));
         runnersRequest.fields.addAll({
           'date_of_birth': _birthController.text,
           'user': userUrl,
@@ -261,7 +261,7 @@ class RegistrationFormsState extends State<RegistrationForms> {
         } else {
 
           var loginRequest = http.MultipartRequest(
-              'POST', Uri.parse('http://localhost:8000/api-token-auth/'));
+              'POST', Uri.parse('http://127.0.0.1:8000/api-token-auth/'));
           loginRequest.fields.addAll({
             'email': _emailController.text,
             'password': _pwController.text,
@@ -594,7 +594,9 @@ class RegistrationFormsState extends State<RegistrationForms> {
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate() && pageState.validateDropdownMenus()) {
+                        print("hey hey");
                         _register(pageState);
+                        print("whats your name");
                         Navigator.pushNamed(context, '/event_reg');
                       }
                     },

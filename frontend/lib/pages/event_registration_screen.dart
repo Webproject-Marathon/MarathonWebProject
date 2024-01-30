@@ -387,8 +387,7 @@ class RegistrationFormsState extends State<RegistrationForms> {
                               ],
                             ),
                           ),
-                        ),
-                      ), //детали спонсорства
+                        ), //детали спонсорства
                     ],
                   ),
                   SizedBox(
@@ -454,7 +453,8 @@ class RegistrationFormsState extends State<RegistrationForms> {
                         },
                         child: const DefaultText(text: 'Отмена'),
                       ), //кнопка отмены
-                    ]),
+                    ]
+                ),
               ), //кнопки
             ],
           ),
