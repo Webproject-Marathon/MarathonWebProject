@@ -21,15 +21,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: cd into backend directory
-      run: |
-        cd ./django_backend
     - name: Install Dependencies
       run: |
         cd ./django_backend
-        dir
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
       run: |
+        cd ./django_backend
         python manage.py test
