@@ -31,6 +31,10 @@ ALLOWED_HOSTS = []
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+PASSWORD_HASHERS = [
+    "django.contrib.auth.hashers.MD5PasswordHasher",  # Not secure! It is only for tests.
+]
+
 
 # Application definition
 

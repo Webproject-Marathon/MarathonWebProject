@@ -1,3 +1,4 @@
+from re import X
 from django.core.management.base import BaseCommand
 from mainapp import models
 from mainapp import db_data
@@ -111,13 +112,17 @@ def populate_charity():
         for (_, name, description, logo_path) in data
     ])
 
-def populate_user():
+
+def populate_user_generic(use_password_hashing: bool, data):
     User = models.User
-    data = db_data.users_data
+    
+    def get_password(x):
+        return make_password(x) if use_password_hashing else x
+
     User.objects.bulk_create([
         User(
             email=email,
-            password=password,
+            password=get_password(password),
             first_name=first_name,
             last_name=last_name,
             role=role
@@ -125,6 +130,11 @@ def populate_user():
         for (email, password, first_name, last_name, role) in data
     ])
     
+def populate_user_with_password_hashing():
+    populate_user_generic(True, db_data.good_users_data)
+
+def populate_user_without_password_hashing():
+    populate_user_generic(False, db_data.users_data)
 
 def populate_runner():
     Runner = models.Runner
@@ -215,7 +225,8 @@ class Command(BaseCommand):
             populate_registration_status,
             populate_race_kit_option,
             populate_charity,
-            populate_user,
+            populate_user_with_password_hashing,
+            populate_user_without_password_hashing,
             populate_runner,
             populate_registration,
             populate_registration_event,

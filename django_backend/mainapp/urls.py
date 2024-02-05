@@ -1,3 +1,4 @@
+from os import name
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken import views as authtoken_views
@@ -23,7 +24,7 @@ router.register(r'registration-events', views.RegistrationEventViewSet)
 router.register(r'events', views.EventViewSet)
 router.register(r'event-types', views.EventTypeViewSet)
 router.register(r'marathons', views.MarathonViewSet)
-router.register(r'runner-management', views.RunnersManagementViewSet)
+router.register(r'runner-management', views.RunnersManagementViewSet, basename='runner-management')
 
 
 urlpatterns = [
